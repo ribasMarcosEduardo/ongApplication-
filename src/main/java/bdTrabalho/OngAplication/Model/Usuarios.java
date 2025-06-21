@@ -1,0 +1,55 @@
+package bdTrabalho.OngAplication.Model;
+
+import bdTrabalho.OngAplication.Model.EMUN.Genero;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Data
+@Entity
+@Table(name = "Usuarios")
+public class Usuarios {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO.IDENTITY)
+    private int id;
+
+    @Column(name = "nome", nullable = false, length = 255)
+    private String nome;
+
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    private String cpf;
+
+    @Column(name = "data_nascimento", nullable = false)
+    private LocalDate dataNascimento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genero")
+    private Genero genero;
+
+    @Column(name = "tipo", nullable = false, length = 1)
+    private char tipo;
+
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDateTime dataCadastro;
+
+    @Column(name = "foto", length = 1024)
+    private String foto;
+
+    @Column(name = "senha", nullable = false, length = 128)
+    private String senha;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Contato> contatos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Adocao> adocoes = new ArrayList<>();
+
+
+}
+

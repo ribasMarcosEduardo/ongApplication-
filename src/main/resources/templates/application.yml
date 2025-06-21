@@ -1,0 +1,26 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: ong_adocao
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ong_adocao?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+server:
+  port: 8080
