@@ -1,7 +1,6 @@
 package bdTrabalho.OngAplication.Model;
 
 import bdTrabalho.OngAplication.Model.EMUN.PorteAnimal;
-import bdTrabalho.OngAplication.Model.EMUN.Vacinas;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

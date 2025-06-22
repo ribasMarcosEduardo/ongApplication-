@@ -1,4 +1,4 @@
-package bdTrabalho.OngAplication.Model.EMUN;
+package bdTrabalho.OngAplication.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
