@@ -1,4 +1,4 @@
-package bdTrabalho.OngAplication.Service;
+package bdTrabalho.OngAplication.service;
 
 import org.springframework.stereotype.Service;
 
