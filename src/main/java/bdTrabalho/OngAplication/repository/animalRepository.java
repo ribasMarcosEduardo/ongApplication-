@@ -1,4 +1,4 @@
-package bdTrabalho.OngAplication.Repository;
+package bdTrabalho.OngAplication.repository;
 
 import bdTrabalho.OngAplication.Model.Animais;
 import org.springframework.data.jpa.repository.JpaRepository;
