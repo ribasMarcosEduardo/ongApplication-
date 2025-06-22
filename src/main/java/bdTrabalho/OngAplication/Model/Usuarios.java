@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 public class Usuarios {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "nome", nullable = false, length = 255)
@@ -42,13 +44,13 @@ public class Usuarios {
     private String senha;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Endereco> enderecos = new ArrayList<>();
+    private List<Enderecos> enderecos = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Contato> contatos = new ArrayList<>();
+    private List<Contatos> contatos = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Adocao> adocoes = new ArrayList<>();
+    private List<Adocoes> adocoes = new ArrayList<>();
 
 
 }

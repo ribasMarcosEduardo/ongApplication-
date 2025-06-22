@@ -1,12 +1,17 @@
 package bdTrabalho.OngAplication.Model;
 
 import bdTrabalho.OngAplication.Model.EMUN.PorteAnimal;
+import bdTrabalho.OngAplication.Model.EMUN.Vacinas;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -59,10 +64,10 @@ public class Animais {
     private String historia;
 
     @OneToOne(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Prontuario prontuario;
+    private Prontuarios prontuario;
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Tratamento> tratamentos = new ArrayList<>();
+    private List<Tratamentos> tratamentos = new ArrayList<>();
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
@@ -70,5 +75,5 @@ public class Animais {
             joinColumns = @JoinColumn(name = "animal_id"),
             inverseJoinColumns = @JoinColumn(name = "vacina_id")
     )
-    private Set<Vacina> vacinas = new HashSet<>();
+    private Set<Vacinas> vacinas = new HashSet<>();
 }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,8 +38,8 @@ public class Funcionarios {
     private Usuarios usuario;
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Solicitacao> solicitacoes = new ArrayList<>();
+    private List<Solicitacoes> solicitacoes = new ArrayList<>();
 
     @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Agendamento> agendamentos = new ArrayList<>();
+    private List<Agendamentos> agendamentos = new ArrayList<>();
 }

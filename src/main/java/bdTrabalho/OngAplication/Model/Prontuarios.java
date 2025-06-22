@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,5 +41,5 @@ public class Prontuarios {
             joinColumns = @JoinColumn(name = "prontuario_id"),
             inverseJoinColumns = @JoinColumn(name = "doenca_id")
     )
-    private Set<Doenca> doencas = new HashSet<>();
+    private Set<Doencas> doencas = new HashSet<>();
 }
