@@ -1,0 +1,50 @@
+package bdTrabalho.OngAplication.dto;
+
+import bdTrabalho.OngAplication.Model.Animais;
+import bdTrabalho.OngAplication.Model.EMUN.PorteAnimal;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
+public record AnimalDTO(
+        int id,
+        String nome,
+        String descricao,
+        String raca,
+        Integer idade,
+        String especie,
+        String foto,
+        Double peso,
+        Character sexo,
+        Character situacao,
+        PorteAnimal porte,
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        LocalDateTime dataChegada,
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        LocalDateTime dataNascimento,
+        String cor,
+        String historia
+) {
+    public Animais mapearAnimal() {
+        Animais animal = new Animais();
+        animal.setId(this.id);
+        animal.setNome(this.nome);
+        animal.setDescricao(this.descricao);
+        animal.setRaca(this.raca);
+        animal.setIdade(this.idade);
+        animal.setEspecie(this.especie);
+        animal.setFoto(this.foto);
+        animal.setPeso(this.peso);
+        if (this.sexo != null) {
+            animal.setSexo(this.sexo);
+        } else {
+            animal.setSexo(' ');
+        }
+        animal.setPorte(this.porte);
+        animal.setDataChegada(this.dataChegada);
+        animal.setDataNascimento(this.dataNascimento);
+        animal.setCor(this.cor);
+        animal.setHistoria(this.historia);
+        return animal;
+    }
+}

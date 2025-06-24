@@ -2,9 +2,7 @@ package bdTrabalho.OngAplication.Model;
 
 import bdTrabalho.OngAplication.Model.EMUN.PorteAnimal;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ public class Animais {
     @Column(nullable = false)
     private String especie;
 
-    @Column(nullable = false, length = 1024)
+    @Column(length = 1024)
     private String foto;
 
     @Column(nullable = false)
@@ -54,6 +52,7 @@ public class Animais {
     @Column(nullable = false)
     private LocalDateTime dataChegada;
 
+    @Column
     private LocalDateTime dataNascimento;
 
     @Column(nullable = false)
@@ -75,4 +74,6 @@ public class Animais {
             inverseJoinColumns = @JoinColumn(name = "vacina_id")
     )
     private Set<Vacinas> vacinas = new HashSet<>();
+
+
 }

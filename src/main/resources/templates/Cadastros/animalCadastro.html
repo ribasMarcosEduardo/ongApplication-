@@ -1,11 +1,165 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/padrao.css">
+    <title>Cadastro de Animal</title>
 </head>
 <body>
-    <h1>Cadastro de animais</h1>
 
+<nav class="navbar navbar-expand-lg custom-header">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+                aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento de Animais
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/animais/cadastroAnimal}">Cadastrar Novo Animal</a></li>
+                        <li><a class="dropdown-item" th:href="@{/animais/listarAnimais}">Listar Animais</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento de Filmes
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/filme/cadastroFilme}">Cadastrar Filmes</a></li>
+                        <li><a class="dropdown-item" th:href="@{/filme/listarFilmes}">Filme e exemplares</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Locação</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/locacao/novaLocacao}">Nova Locação</a></li>
+                        <li><a class="dropdown-item" th:href="@{/locacao/buscar}">Finalizar Locação</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/geral/buscarContagemAlugueis}">Contagem de Aluguéis por Filme</a></li>
+                        <li><span class="dropdown-item">Em breve...</span></li>
+                    </ul>
+                </li>
+            </ul>
+            <form th:action="@{/logout}" method="post" class="ms-auto">
+                <button type="submit" class="btn btn-outline-light">Sair</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <section class="borda-container">
+        <h3 style="text-align: center; margin-bottom: 1.5rem;">Cadastro de Novo Animal</h3>
+
+        <div th:if="${Sucesso}" class="alert alert-success" role="alert" th:text="${Sucesso}"></div>
+        <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
+
+        <form th:action="@{/animal/salvarAnimal}" th:object="${animalDTO}" method="post">
+            <input type="hidden" th:field="*{id}"> <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label" for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="especie">Espécie:</label>
+                <input type="text" class="form-control" id="especie" th:field="*{especie}" required>
+            </div>
+        </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="raca">Raça:</label>
+                    <input type="text" class="form-control" id="raca" th:field="*{raca}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="idade">Idade (anos):</label>
+                    <input type="number" class="form-control" id="idade" th:field="*{idade}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="peso">Peso (kg):</label>
+                    <input type="number" step="0.01" class="form-control" id="peso" th:field="*{peso}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="sexo">Sexo:</label>
+                    <select class="form-select" id="sexo" th:field="*{sexo}" required>
+                        <option value="">Selecione</option>
+                        <option value="M">Macho</option>
+                        <option value="F">Fêmea</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="cor">Cor:</label>
+                    <input type="text" class="form-control" id="cor" th:field="*{cor}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="porte">Porte:</label>
+                    <select class="form-select" id="porte" th:field="*{porte}" required>
+                        <option value="">Selecione</option>
+                        <option th:each="porteEnum : ${T(bdTrabalho.OngAplication.Model.EMUN.PorteAnimal).values()}"
+                                th:value="${porteEnum}" th:text="${porteEnum.displayName}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="dataNascimento">Data de Nascimento:</label>
+                    <input type="datetime-local" class="form-control" id="dataNascimento" th:field="*{dataNascimento}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="dataChegada">Data de Chegada:</label>
+                    <input type="datetime-local" class="form-control" id="dataChegada" th:field="*{dataChegada}" required>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="form-label" for="descricao">Descrição:</label>
+                    <textarea class="form-control" id="descricao" th:field="*{descricao}" rows="3" required></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="form-label" for="historia">História (opcional):</label>
+                    <textarea class="form-control" id="historia" th:field="*{historia}" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="form-label" for="foto">URL da Foto:</label>
+                    <input type="url" class="form-control" id="foto" th:field="*{foto}" placeholder="http://example.com/foto.jpg" >
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success me-2">Salvar Animal</button>
+                    <a href="http://localhost:8080/animal/cadastroAnimal" class="btn btn-danger">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
