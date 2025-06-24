@@ -16,43 +16,17 @@
                 aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+        <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento de Animais
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Cadastros
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/animais/cadastroAnimal}">Cadastrar Novo Animal</a></li>
-                        <li><a class="dropdown-item" th:href="@{/animais/listarAnimais}">Listar Animais</a></li>
+                        <li><a class="dropdown-item" th:href="@{/animal/cadastroAnimal}">Cadastrar Animal</a></li>
+                        <li><a class="dropdown-item" th:href="@{/doenca/cadastroDoenca}">Cadastrar Doença</a></li>
+                        <li><a class="dropdown-item" th:href="@{/vacina/cadastroVacina}">Cadastrar Vacina</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Gerenciamento de Filmes
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/filme/cadastroFilme}">Cadastrar Filmes</a></li>
-                        <li><a class="dropdown-item" th:href="@{/filme/listarFilmes}">Filme e exemplares</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Locação</button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/locacao/novaLocacao}">Nova Locação</a></li>
-                        <li><a class="dropdown-item" th:href="@{/locacao/buscar}">Finalizar Locação</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Relatórios
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:href="@{/geral/buscarContagemAlugueis}">Contagem de Aluguéis por Filme</a></li>
-                        <li><span class="dropdown-item">Em breve...</span></li>
-                    </ul>
-                </li>
-            </ul>
-            <form th:action="@{/logout}" method="post" class="ms-auto">
-                <button type="submit" class="btn btn-outline-light">Sair</button>
-            </form>
         </div>
     </div>
 </nav>
@@ -65,16 +39,20 @@
         <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
 
         <form th:action="@{/animal/salvarAnimal}" th:object="${animalDTO}" method="post">
-            <input type="hidden" th:field="*{id}"> <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="form-label" for="nome">Nome:</label>
-                <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="row mb-3">
+
+                <div class="col-md-6">
+                    <label class="form-label" for="nome">Nome:</label>
+                    <input type="text" class="form-control" id="nome" th:field="*{nome}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="especie">Espécie:</label>
+                    <input type="text" class="form-control" id="especie" th:field="*{especie}" required>
+                </div>
             </div>
-            <div class="col-md-6">
-                <label class="form-label" for="especie">Espécie:</label>
-                <input type="text" class="form-control" id="especie" th:field="*{especie}" required>
-            </div>
-        </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -125,7 +103,8 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="dataChegada">Data de Chegada:</label>
-                    <input type="datetime-local" class="form-control" id="dataChegada" th:field="*{dataChegada}" required>
+                    <input type="datetime-local" class="form-control" id="dataChegada" th:field="*{dataChegada}"
+                           required>
                 </div>
             </div>
 
@@ -146,19 +125,24 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <label class="form-label" for="foto">URL da Foto:</label>
-                    <input type="url" class="form-control" id="foto" th:field="*{foto}" placeholder="http://example.com/foto.jpg" >
+                    <input type="url" class="form-control" id="foto" th:field="*{foto}"
+                           placeholder="http://example.com/foto.jpg">
                 </div>
             </div>
 
             <div class="row mt-4">
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success me-2">Salvar Animal</button>
+                    <button type="submit" class="btn btn-success me-2">Salvar</button>
                     <a href="http://localhost:8080/animal/cadastroAnimal" class="btn btn-danger">Cancelar</a>
                 </div>
             </div>
         </form>
     </section>
 </div>
+
+<script>
+    setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

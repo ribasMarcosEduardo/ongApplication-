@@ -21,7 +21,7 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @GetMapping("/cadastroAnimal")
-    public String cadastroAnimail(Model model){
+    public String cadastroAnimail(Model model) {
         model.addAttribute("animalDTO", new AnimalDTO(0, null, null, null, null, null, null, null, null, ' ', null, null, null, null, null));
         return "Cadastros/animalCadastro";
         // http://localhost:8080/animal/cadastroAnimal
@@ -40,8 +40,6 @@ public class AnimalController {
         try {
 
             Animais animal = animalDTO.mapearAnimal();
-
-
             animal.setSituacao('D');
 
 

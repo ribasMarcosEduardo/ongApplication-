@@ -1,4 +1,8 @@
 package bdTrabalho.OngAplication.repository;
 
-public interface DoencaRepository {
+import bdTrabalho.OngAplication.Model.Doencas;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DoencaRepository extends JpaRepository<Doencas, Integer> {
 }
+
