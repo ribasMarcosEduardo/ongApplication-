@@ -1,16 +1,17 @@
-package bdTrabalho.OngAplication.Model;
+package bdTrabalho.OngAplication.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"animal", "doencas", "vacinas"})
+@EqualsAndHashCode(exclude = {"animal", "doencas", "vacinas"})
 @Entity
 @Table
 public class Prontuarios {
@@ -42,4 +43,12 @@ public class Prontuarios {
             inverseJoinColumns = @JoinColumn(name = "doenca_id")
     )
     private Set<Doencas> doencas = new HashSet<>();
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "Vacina_Prontuario",
+            joinColumns = @JoinColumn(name = "prontuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "vacina_id")
+    )
+    private Set<Vacinas> vacinas = new HashSet<>();
 }

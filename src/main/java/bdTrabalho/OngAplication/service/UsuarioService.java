@@ -1,6 +1,6 @@
 package bdTrabalho.OngAplication.service;
 
-import bdTrabalho.OngAplication.Model.Usuarios;
+import bdTrabalho.OngAplication.model.Usuarios;
 import bdTrabalho.OngAplication.dto.UsuarioDTO;
 import bdTrabalho.OngAplication.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

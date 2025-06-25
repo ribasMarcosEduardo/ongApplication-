@@ -1,7 +1,6 @@
 package bdTrabalho.OngAplication.dto;
 
-import bdTrabalho.OngAplication.Model.Doencas;
-import bdTrabalho.OngAplication.Model.Vacinas;
+import bdTrabalho.OngAplication.model.Doencas;
 
 public record DoencaDTO(
         int id,

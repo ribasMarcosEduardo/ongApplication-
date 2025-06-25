@@ -1,4 +1,4 @@
-package bdTrabalho.OngAplication.Controller;
+package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.UsuarioDTO;
 import bdTrabalho.OngAplication.service.UsuarioService;

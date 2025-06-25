@@ -1,6 +1,6 @@
 package bdTrabalho.OngAplication.repository;
 
-import bdTrabalho.OngAplication.Model.Animais;
+import bdTrabalho.OngAplication.model.Animais;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

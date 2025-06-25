@@ -1,6 +1,6 @@
-package bdTrabalho.OngAplication.Controller;
+package bdTrabalho.OngAplication.controller;
 
-import bdTrabalho.OngAplication.Model.Animais;
+import bdTrabalho.OngAplication.model.Animais;
 import bdTrabalho.OngAplication.dto.AnimalDTO;
 import bdTrabalho.OngAplication.service.AnimalService;
 import lombok.RequiredArgsConstructor;

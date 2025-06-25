@@ -1,6 +1,6 @@
-package bdTrabalho.OngAplication.Model;
+package bdTrabalho.OngAplication.model;
 
-import bdTrabalho.OngAplication.Model.EMUN.Genero;
+import bdTrabalho.OngAplication.model.EMUN.Genero;
 import jakarta.persistence.*;
 import lombok.Data;
 

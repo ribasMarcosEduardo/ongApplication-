@@ -1,6 +1,6 @@
-package bdTrabalho.OngAplication.Model;
+package bdTrabalho.OngAplication.model;
 
-import bdTrabalho.OngAplication.Model.EMUN.TipoEndereco;
+import bdTrabalho.OngAplication.model.EMUN.TipoEndereco;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,9 +1,12 @@
-package bdTrabalho.OngAplication.Model;
+package bdTrabalho.OngAplication.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +24,7 @@ public class Vacinas {
 
     @Column(nullable = false)
     private String codigo;
+
+    @ManyToMany(mappedBy = "vacinas")
+    private Set<Prontuarios> prontuarios = new HashSet<>();
 }

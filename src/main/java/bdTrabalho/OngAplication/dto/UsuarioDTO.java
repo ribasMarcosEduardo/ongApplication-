@@ -1,6 +1,6 @@
 package bdTrabalho.OngAplication.dto;
 
-import bdTrabalho.OngAplication.Model.EMUN.Genero;
+import bdTrabalho.OngAplication.model.EMUN.Genero;
 import br.com.caelum.stella.bean.validation.CPF;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

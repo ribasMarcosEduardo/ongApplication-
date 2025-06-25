@@ -1,6 +1,6 @@
-package bdTrabalho.OngAplication.Controller;
+package bdTrabalho.OngAplication.controller;
 
-import bdTrabalho.OngAplication.Model.Vacinas;
+import bdTrabalho.OngAplication.model.Vacinas;
 import bdTrabalho.OngAplication.dto.VacinaDTO;
 import bdTrabalho.OngAplication.service.VacinaService;
 import lombok.RequiredArgsConstructor;

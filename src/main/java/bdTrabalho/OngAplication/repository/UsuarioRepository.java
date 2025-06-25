@@ -1,6 +1,6 @@
 package bdTrabalho.OngAplication.repository;
 
-import bdTrabalho.OngAplication.Model.Usuarios;
+import bdTrabalho.OngAplication.model.Usuarios;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package bdTrabalho.OngAplication.Model;
+package bdTrabalho.OngAplication.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package locadoraFilmes.application.exeption;
+package bdTrabalho.OngAplication.exeption;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +16,7 @@ public class GlobalExceptionHandler {
 
     private String getRedirectUrl(HttpServletRequest request) {
         String referer = request.getHeader("Referer");
-        return "redirect:" + (referer != null ? referer : "cadastro/cadastroFilme");
+        return "redirect:" + (referer != null ? referer : "cadastro/cadastroAnimal");
+
     }
 }
