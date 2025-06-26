@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<footer class="bg-dark text-white text-center py-3 mt-5" th:fragment="footer">
+  <div class="container">
+    <p class="mb-0">
+      &copy; <span id="current-year"></span> Ong Adocão - Todos os direitos reservados.
+    </p>
+
+  </div>
+
+  <script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+  </script>
+</footer>
+
+</body>
+</html>

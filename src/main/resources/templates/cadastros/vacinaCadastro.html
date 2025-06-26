@@ -10,44 +10,44 @@
 </head>
 <body>
 
-<nav th:replace="~{Fragments/navbar :: navbar}"></nav>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<div class="container mt-5">
-    <section class="borda-container">
-        <h3 style="text-align: center; margin-bottom: 1.5rem;">Cadastro de Nova Vacina</h3>
+    <div class="container mt-5">
+        <section class="borda-container">
+            <h3 style="text-align: center; margin-bottom: 1.5rem;">Cadastro de Nova Vacina</h3>
 
-        <div th:if="${Sucesso}" class="alert alert-success" role="alert" th:text="${Sucesso}"></div>
-        <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
+            <div th:if="${Sucesso}" class="alert alert-success" role="alert" th:text="${Sucesso}"></div>
+            <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
 
-        <form th:action="@{/vacina/salvarVacina}" th:object="${vacinaDTO}" method="post">
+            <form th:action="@{/vacina/salvarVacina}" th:object="${vacinaDTO}" method="post">
 
-            <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{id}">
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label" for="nome">Nome da Vacina:</label>
-                    <input type="text" class="form-control" id="nome" th:field="*{nome}"
-                           placeholder="Ex: Antirrábica, V10, etc." required>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label" for="nome">Nome da Vacina:</label>
+                        <input type="text" class="form-control" id="nome" th:field="*{nome}"
+                               placeholder="Ex: Antirrábica, V10, etc." required>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label" for="codigo">Código/Lote:</label>
-                    <input type="text" class="form-control" id="codigo" th:field="*{codigo}"
-                           placeholder="Ex: LOTE2025-001" required>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label" for="codigo">Código/Lote:</label>
+                        <input type="text" class="form-control" id="codigo" th:field="*{codigo}"
+                               placeholder="Ex: LOTE2025-001" required>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-success me-2">Salvar</button>
-                    <a th:href="@{/vacinas/lista}" class="btn btn-danger">Cancelar</a>
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-success me-2">Salvar</button>
+                        <a th:href="@{/vacinas/lista}" class="btn btn-danger">Cancelar</a>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </section>
-</div>
+            </form>
+        </section>
+    </div>
 
 <script>
     setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);

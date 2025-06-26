@@ -1,8 +1,8 @@
 package bdTrabalho.OngAplication.model.EMUN;
 
 public enum Genero {
-    HOMEM,
-    MULHER,
+    MASCULINO,
+    FEMININO,
     NAO_INFORMAR,
     NAO_BINARIO
 }

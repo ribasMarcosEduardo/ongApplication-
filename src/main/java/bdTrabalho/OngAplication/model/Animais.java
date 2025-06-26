@@ -66,14 +66,4 @@ public class Animais {
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Tratamentos> tratamentos = new ArrayList<>();
-
-    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(
-            name = "Animal_Vacina",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "vacina_id")
-    )
-    private Set<Vacinas> vacinas = new HashSet<>();
-
-
 }

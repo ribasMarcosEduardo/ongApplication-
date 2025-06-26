@@ -41,9 +41,6 @@ public class Campanhas {
     private SituacaoCampanha situacao;
 
     @Column(nullable = false)
-    private String tipo;
-
-    @Column(nullable = false)
     private String localizacao;
 
     @Column(precision = 10, scale = 2)
@@ -51,10 +48,4 @@ public class Campanhas {
 
     @Column(precision = 10, scale = 2)
     private BigDecimal lucro;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizador_id")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Usuarios organizador;
-
 }
