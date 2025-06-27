@@ -1,7 +1,7 @@
 package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.CampanhaDTO;
-import bdTrabalho.OngAplication.model.EMUN.SituacaoCampanha;
+import bdTrabalho.OngAplication.model.ENUM.SituacaoCampanha;
 import bdTrabalho.OngAplication.service.CampanhaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

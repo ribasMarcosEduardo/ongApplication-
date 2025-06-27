@@ -70,7 +70,7 @@
           <div class="col-md-4">
             <label class="form-label" for="situacao">Situação:</label>
             <select class="form-select" id="situacao" name="situacao">
-              <option th:each="sit : ${T(bdTrabalho.OngAplication.model.EMUN.SituacaoCampanha).values()}"
+              <option th:each="sit : ${T(bdTrabalho.OngAplication.model.ENUM.SituacaoCampanha).values()}"
                       th:value="${sit}"
                       th:text="${sit.displayName}"
                       th:selected="${sit == campanhaDTO.situacao()}">

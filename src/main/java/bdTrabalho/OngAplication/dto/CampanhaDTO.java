@@ -1,7 +1,7 @@
 package bdTrabalho.OngAplication.dto;
 
 import bdTrabalho.OngAplication.model.Campanhas;
-import bdTrabalho.OngAplication.model.EMUN.SituacaoCampanha;
+import bdTrabalho.OngAplication.model.ENUM.SituacaoCampanha;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

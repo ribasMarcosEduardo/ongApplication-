@@ -66,7 +66,7 @@ TODO: ajustar validações dos campos no front-->
             <select id="genero" th:field="*{genero}">
                 <option value="">Selecione...</option>
                 <!-- O Thymeleaf consegue iterar sobre os valores do seu ENUM -->
-                <option th:each="gen : ${T(bdTrabalho.OngAplication.model.EMUN.Genero).values()}"
+                <option th:each="gen : ${T(bdTrabalho.OngAplication.model.ENUM.Genero).values()}"
                         th:value="${gen}"
                         th:text="${gen}"></option>
             </select>

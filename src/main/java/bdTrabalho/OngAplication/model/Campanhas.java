@@ -1,12 +1,10 @@
 package bdTrabalho.OngAplication.model;
 
-import bdTrabalho.OngAplication.model.EMUN.SituacaoCampanha;
+import bdTrabalho.OngAplication.model.ENUM.SituacaoCampanha;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
