@@ -1,6 +1,7 @@
 package bdTrabalho.OngAplication.model;
 
 import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
+import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,11 +11,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+// Anotações corrigidas
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"prontuario", "tratamentos"})
+@EqualsAndHashCode(exclude = {"prontuario", "tratamentos"})
 @Entity
 public class Animais {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -30,8 +36,9 @@ public class Animais {
 
     private Integer idade;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String especie;
+    private TipoAnimal tipo;
 
     @Column(length = 1024)
     private String foto;
@@ -66,4 +73,5 @@ public class Animais {
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Tratamentos> tratamentos = new ArrayList<>();
+
 }

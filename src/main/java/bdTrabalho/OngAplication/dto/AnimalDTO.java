@@ -2,6 +2,7 @@ package bdTrabalho.OngAplication.dto;
 
 import bdTrabalho.OngAplication.model.Animais;
 import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
+import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -12,16 +13,14 @@ public record AnimalDTO(
         String descricao,
         String raca,
         Integer idade,
-        String especie,
+        TipoAnimal tipo,
         String foto,
         Double peso,
         Character sexo,
         Character situacao,
         PorteAnimal porte,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        LocalDateTime dataChegada,
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        LocalDateTime dataNascimento,
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataChegada,
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dataNascimento,
         String cor,
         String historia
 ) {
@@ -32,7 +31,7 @@ public record AnimalDTO(
         animal.setDescricao(this.descricao);
         animal.setRaca(this.raca);
         animal.setIdade(this.idade);
-        animal.setEspecie(this.especie);
+        animal.setTipo(this.tipo);
         animal.setFoto(this.foto);
         animal.setPeso(this.peso);
         if (this.sexo != null) {

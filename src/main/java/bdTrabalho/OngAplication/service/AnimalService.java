@@ -17,8 +17,17 @@ public class AnimalService {
         return repository.save(animal);
     }
 
-    public List<Animais> findAll (){
+    public List<Animais> findAll(){
         return repository.findAll();
     }
+
+    public long countTotal() {
+        return repository.count();
+    }
+
+    public long countDisponiveis() {
+        return repository.countBySituacao('D');
+    }
+
 
 }

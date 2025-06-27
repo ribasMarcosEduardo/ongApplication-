@@ -1,7 +1,9 @@
 package bdTrabalho.OngAplication.controller;
 
-import bdTrabalho.OngAplication.model.Animais;
 import bdTrabalho.OngAplication.dto.AnimalDTO;
+import bdTrabalho.OngAplication.model.Animais;
+import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
+import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
 import bdTrabalho.OngAplication.service.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/animal")
@@ -20,9 +24,18 @@ public class AnimalController {
 
     private final AnimalService animalService;
 
+
     @GetMapping("/cadastroAnimal")
     public String cadastroAnimail(Model model) {
-        model.addAttribute("animalDTO", new AnimalDTO(0, null, null, null, null, null, null, null, null, ' ', null, null, null, null, null));
+
+        model.addAttribute("animalDTO", new AnimalDTO(
+                0, null, null, null, null, null, null, null, null,
+                ' ', null, null, null, null, null
+        ));
+
+        model.addAttribute("tiposDeAnimal", TipoAnimal.values());
+        model.addAttribute("portesDeAnimal", PorteAnimal.values());
+
         return "Cadastros/animalCadastro";
         // http://localhost:8080/animal/cadastroAnimal
     }
@@ -54,6 +67,15 @@ public class AnimalController {
             return "redirect:/animal/cadastroAnimal";
         }
         //MUITA COISA AINDA VAI SER APRIMORADA
+    }
+
+    @GetMapping("/listaAnimal")
+    public String listaAnimal(Model model){
+
+        List<Animais> todosOsAnimais = animalService.findAll();
+
+        model.addAttribute("listaAnimais", todosOsAnimais);
+        return "listagens/listarAnimais"; // http://localhost:8080/animal/listaAnimal
     }
 
 

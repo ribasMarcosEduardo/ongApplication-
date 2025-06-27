@@ -30,36 +30,46 @@ public class ProntuarioService {
 
 
     @Transactional
-    public void saveProntuario(ProntuarioDTO prontuarioDTO){
+    public void saveProntuario(ProntuarioDTO dto) {
 
-        prontuarioValidator.validateNewProntuario(prontuarioDTO);
+        Prontuarios prontuario;
 
-        Animais animal = animalRepository.findById(prontuarioDTO.animalId())
-                .orElseThrow(() -> new RuntimeException("Animal não encontrado com o ID: " + prontuarioDTO.animalId()));
+        if (dto.id() == 0) {
 
-        Prontuarios prontuario = new Prontuarios();
-        prontuario.setObservacoesGerais(prontuarioDTO.observacoesGerais());
-        prontuario.setAlergias(prontuarioDTO.alergias());
-        prontuario.setDeficiencia(prontuarioDTO.deficiencia());
+            prontuarioValidator.validateNewProntuario(dto);
 
-        if(prontuarioDTO.castrado() != null) {
-            prontuario.setCastrado(prontuarioDTO.castrado());
+            prontuario = new Prontuarios();
+
+        } else {
+
+            prontuario = prontuarioRepository.findById(dto.id())
+                    .orElseThrow(() -> new RuntimeException("Prontuário não encontrado para o ID: " + dto.id()));
+
+        }
+
+        Animais animal = animalRepository.findById(dto.animalId())
+                .orElseThrow(() -> new RuntimeException("Animal não encontrado com o ID: " + dto.animalId()));
+
+        prontuario.setObservacoesGerais(dto.observacoesGerais());
+        prontuario.setAlergias(dto.alergias());
+        prontuario.setDeficiencia(dto.deficiencia());
+        if (dto.castrado() != null) {
+            prontuario.setCastrado(dto.castrado());
         }
 
         prontuario.setAnimal(animal);
 
-        if (prontuarioDTO.doencaIds() != null && !prontuarioDTO.doencaIds().isEmpty()) {
-            Set<Doencas> doencas = new HashSet<>(doencaRepository.findAllById(prontuarioDTO.doencaIds()));
+        if (dto.doencaIds() != null) {
+            Set<Doencas> doencas = new HashSet<>(doencaRepository.findAllById(dto.doencaIds()));
             prontuario.setDoencas(doencas);
         }
 
-        if(prontuarioDTO.vacinaIds() != null && !prontuarioDTO.vacinaIds().isEmpty()){
-            Set<Vacinas> vacinas = new HashSet<>(vacinaRepository.findAllById(prontuarioDTO.vacinaIds()));
+        if (dto.vacinaIds() != null) {
+            Set<Vacinas> vacinas = new HashSet<>(vacinaRepository.findAllById(dto.vacinaIds()));
             prontuario.setVacinas(vacinas);
         }
 
         prontuarioRepository.save(prontuario);
-
     }
 
 }
