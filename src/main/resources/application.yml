@@ -42,9 +42,10 @@ spring:
   # --- Configurações do Banco de Dados para MariaDB ---
   datasource:
     # 1. URL correta para o driver do MariaDB
-    url: jdbc:mariadb://localhost:3306/ong_adocao?useSSL=false&serverTimezone=UTC
+    #TODO: Isa (no meu banco eu instalei a porta como 3308, por isso precisa alterar quando for rodar isso)
+    url: jdbc:mariadb://localhost:3308/ong_adocao?useSSL=false&serverTimezone=UTC
     username: root
-    password: ${DB_PASSWORD} # Continua lendo a senha de uma variável de ambiente, o que é uma ótima prática!
+    password: root # Continua lendo a senha de uma variável de ambiente, o que é uma ótima prática!
     # 2. Driver correto para o MariaDB
     driver-class-name: org.mariadb.jdbc.Driver
 
