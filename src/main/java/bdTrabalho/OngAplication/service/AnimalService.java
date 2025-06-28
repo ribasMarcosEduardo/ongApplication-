@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +30,8 @@ public class AnimalService {
         return repository.countBySituacao('D');
     }
 
+    public Optional<Animais> findById(int id) {
+        return repository.findById(id);
+    }
 
 }

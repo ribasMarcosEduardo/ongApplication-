@@ -1,18 +1,18 @@
 package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.CampanhaDTO;
+import bdTrabalho.OngAplication.model.Campanhas;
 import bdTrabalho.OngAplication.model.EMUN.SituacaoCampanha;
 import bdTrabalho.OngAplication.service.CampanhaService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -40,6 +40,30 @@ public class CampanhaController {
             return "redirect:/campanha/cadastroCampanha";
         }
     }
+
+    @GetMapping("/listaCampanha")
+    public String listaCampanha(Model model) {
+
+        List<Campanhas> todasAsCampanhas = campanhaService.findAll();
+
+        model.addAttribute("listaCampanhas", todasAsCampanhas);
+        return "listagens/listarCampanhas"; // http://localhost:8080/campanha/listaCampanha
+    }
+
+    @GetMapping("/editarCampanha")
+    public String editarCampanha(@RequestParam("id") int id, Model model) {
+
+        Campanhas campanhaExistente = campanhaService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Campanha não encontrada para o ID: " + id));
+
+        CampanhaDTO campanhaDTO = CampanhaDTO.fromEntity(campanhaExistente);
+
+        model.addAttribute("campanhaDTO", campanhaDTO);
+        return "cadastros/campanhaCadastro";
+    }
+
+
+
 
 
 }

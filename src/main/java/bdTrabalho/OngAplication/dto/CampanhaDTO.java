@@ -34,4 +34,19 @@ public record CampanhaDTO(
         return campanha;
     }
 
+    public static CampanhaDTO fromEntity(Campanhas campanha) {
+        return new CampanhaDTO(
+                campanha.getId(),
+                campanha.getNome(),
+                campanha.getDescricao(),
+                campanha.getDataInicio(),
+                campanha.getDataTermino(),
+                campanha.getMeta(),
+                campanha.getSituacao(),
+                campanha.getLocalizacao(),
+                campanha.getCusto(),
+                campanha.getLucro()
+        );
+    }
+
 }

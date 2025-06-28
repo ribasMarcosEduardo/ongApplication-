@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CampanhaRepository extends JpaRepository<Campanhas, Integer> {
 
-    boolean existsByNomeIgnoreCase(String nome);
+
+    boolean existsByNomeIgnoreCaseAndIdNot(String nome, int id);
 
 }

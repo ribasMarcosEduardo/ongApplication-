@@ -14,7 +14,7 @@ public class CampanhaValidator {
 
     public void validarCampanha(CampanhaDTO dto) {
 
-        if (campanhaRepository.existsByNomeIgnoreCase(dto.nome())) {
+        if (campanhaRepository.existsByNomeIgnoreCaseAndIdNot(dto.nome(), dto.id())) {
             throw new MensagemPadrao("Já existe uma campanha cadastrada com este nome.");
         }
 

@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CampanhaService {
@@ -17,11 +20,20 @@ public class CampanhaService {
     private final CampanhaValidator validator;
 
     @Transactional
-    public Campanhas saveCampanha(CampanhaDTO campanhaDTO){
+    public Campanhas saveCampanha(CampanhaDTO campanhaDTO) {
         validator.validarCampanha(campanhaDTO);
 
         Campanhas campanha = campanhaDTO.mapearCampanha();
         return repository.save(campanha);
+
+    }
+
+    public List<Campanhas> findAll() {
+        return repository.findAll();
+    }
+
+    public Optional<Campanhas> findById(int id) {
+        return repository.findById(id);
     }
 
 }

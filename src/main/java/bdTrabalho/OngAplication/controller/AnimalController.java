@@ -2,6 +2,7 @@ package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.AnimalDTO;
 import bdTrabalho.OngAplication.model.Animais;
+import bdTrabalho.OngAplication.model.Campanhas;
 import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
 import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
 import bdTrabalho.OngAplication.service.AnimalService;
@@ -9,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -23,7 +21,6 @@ import java.util.List;
 public class AnimalController {
 
     private final AnimalService animalService;
-
 
     @GetMapping("/cadastroAnimal")
     public String cadastroAnimail(Model model) {
@@ -70,7 +67,7 @@ public class AnimalController {
     }
 
     @GetMapping("/listaAnimal")
-    public String listaAnimal(Model model){
+    public String listaAnimal(Model model) {
 
         List<Animais> todosOsAnimais = animalService.findAll();
 
@@ -78,5 +75,16 @@ public class AnimalController {
         return "listagens/listarAnimais"; // http://localhost:8080/animal/listaAnimal
     }
 
+    @GetMapping("/editarAnimal")
+    public String editarAnimal(@RequestParam("id") int id, Model model) {
 
+        Animais animalExistente = animalService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Animal não encontrada para o ID: " + id));
+
+        AnimalDTO animalDTO = AnimalDTO.fromEntity(animalExistente);
+
+        model.addAttribute("animalDTO", animalDTO);
+        return "cadastros/animalCadastro";
+
+    }
 }

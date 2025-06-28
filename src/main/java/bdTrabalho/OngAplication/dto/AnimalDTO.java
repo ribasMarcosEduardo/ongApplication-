@@ -46,4 +46,24 @@ public record AnimalDTO(
         animal.setHistoria(this.historia);
         return animal;
     }
+
+    public static AnimalDTO fromEntity(Animais animal){
+        return new AnimalDTO(
+                animal.getId(),
+                animal.getNome(),
+                animal.getDescricao(),
+                animal.getRaca(),
+                animal.getIdade(),
+                animal.getTipo(),
+                animal.getFoto(),
+                animal.getPeso(),
+                animal.getSexo(),
+                animal.getSituacao(),
+                animal.getPorte(),
+                animal.getDataChegada(),
+                animal.getDataNascimento(),
+                animal.getCor(),
+                animal.getHistoria()
+        );
+    }
 }
