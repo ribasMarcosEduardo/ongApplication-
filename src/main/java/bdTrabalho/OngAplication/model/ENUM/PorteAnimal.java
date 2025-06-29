@@ -1,4 +1,4 @@
-package bdTrabalho.OngAplication.model.EMUN;
+package bdTrabalho.OngAplication.model.ENUM;
 
 public enum PorteAnimal {
     GRANDE("Grande"),

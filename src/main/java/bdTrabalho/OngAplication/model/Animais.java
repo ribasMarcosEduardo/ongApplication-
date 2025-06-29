@@ -1,15 +1,13 @@
 package bdTrabalho.OngAplication.model;
 
-import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
-import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
+import bdTrabalho.OngAplication.model.ENUM.PorteAnimal;
+import bdTrabalho.OngAplication.model.ENUM.TipoAnimal;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 // Anotações corrigidas
 @Getter
