@@ -1,6 +1,7 @@
 package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.UsuarioDTO;
+import bdTrabalho.OngAplication.model.ENUM.Genero;
 import bdTrabalho.OngAplication.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class UsuarioController {
 
     @GetMapping("/cadastroUsuario")
     public String cadastroUsuario(Model model) {
-        model.addAttribute("UsuarioDTO", new UsuarioDTO(null, null, null, null, ' ', null, null));
+        model.addAttribute("UsuarioDTO", new UsuarioDTO(null, null, null, null, null, ' ', null, null));
+        model.addAttribute("generos", Genero.values());
         return "Cadastros/usuarioCadastro";
     }
 
