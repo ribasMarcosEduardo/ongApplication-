@@ -62,7 +62,18 @@ public class CampanhaController {
         return "cadastros/campanhaCadastro";
     }
 
+    @GetMapping("/excluir")
+    public String deletarCampanha(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
+        try {
+            campanhaService.deletarPorId(id);
+            redirectAttributes.addFlashAttribute("Sucesso", "Animal excluído com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("Erro", "Erro ao excluir animal. Verifique se ele não possui prontuários ou outros registros associados.");
+            e.printStackTrace();
+        }
 
+        return "redirect:/campanha/listaCampanha";
+    }
 
 
 

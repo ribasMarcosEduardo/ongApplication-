@@ -34,11 +34,7 @@ public record AnimalDTO(
         animal.setTipo(this.tipo);
         animal.setFoto(this.foto);
         animal.setPeso(this.peso);
-        if (this.sexo != null) {
-            animal.setSexo(this.sexo);
-        } else {
-            animal.setSexo(' ');
-        }
+        animal.setSexo(this.sexo);
         animal.setPorte(this.porte);
         animal.setDataChegada(this.dataChegada);
         animal.setDataNascimento(this.dataNascimento);
@@ -48,6 +44,7 @@ public record AnimalDTO(
     }
 
     public static AnimalDTO fromEntity(Animais animal){
+        System.out.println("SEXO DO ANIMAL AO EDITAR: " + animal.getSexo());
         return new AnimalDTO(
                 animal.getId(),
                 animal.getNome(),

@@ -84,7 +84,23 @@ public class AnimalController {
         AnimalDTO animalDTO = AnimalDTO.fromEntity(animalExistente);
 
         model.addAttribute("animalDTO", animalDTO);
+        model.addAttribute("tiposDeAnimal", TipoAnimal.values());
+        model.addAttribute("portesDeAnimal", PorteAnimal.values());
+
         return "cadastros/animalCadastro";
 
+    }
+
+    @GetMapping("/excluir")
+    public String deletarAnimal(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
+        try {
+            animalService.deletarPorId(id);
+            redirectAttributes.addFlashAttribute("Sucesso", "Animal excluído com sucesso!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("Erro", "Erro ao excluir animal. Verifique se ele não possui prontuários ou outros registros associados.");
+            e.printStackTrace();
+        }
+
+        return "redirect:/animal/listaAnimal";
     }
 }
