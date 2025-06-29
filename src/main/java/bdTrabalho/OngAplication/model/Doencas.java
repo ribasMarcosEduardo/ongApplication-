@@ -1,13 +1,17 @@
 package bdTrabalho.OngAplication.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "prontuarios")
+@EqualsAndHashCode(exclude = "prontuarios")
 @Entity
 @Table
 public class Doencas {
@@ -21,4 +25,7 @@ public class Doencas {
 
     @Column(nullable = false)
     private String nome;
+
+    @ManyToMany(mappedBy = "doencas")
+    private Set<Prontuarios> prontuarios = new HashSet<>();
 }

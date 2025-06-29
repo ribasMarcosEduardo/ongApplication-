@@ -31,10 +31,9 @@
                     <input type="hidden" id="animalId" th:field="*{animalId}" required>
 
                     <div class="input-group">
-                        <input type="text" id="animalNome" class="form-control" placeholder="Nenhum animal selecionado"
-                               readonly>
-                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal"
-                                data-bs-target="#modalAnimais">
+                        <input type="text" id="animalNome" class="form-control" placeholder="Nenhum animal selecionado" readonly>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAnimais"
+                                th:disabled="${prontuarioDTO.id > 0}">
                             Selecionar...
                         </button>
                         <div class="invalid-feedback">
@@ -233,6 +232,17 @@
         </div>
     </div>
 </div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // As variáveis abaixo agora existirão globalmente para o seu script .js usar
+    const animalInicial = /*[[${animalDoProntuario}]]*/ null;
+    const doencasIniciais = /*[[${doencasIniciais}]]*/ [];
+    const vacinasIniciais = /*[[${vacinasIniciais}]]*/ [];
+
+    /*]]>*/
+</script>
 
 <script>
     setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);

@@ -12,4 +12,6 @@ public interface AnimalRepository extends JpaRepository<Animais, Integer> {
     long countBySituacao(char situacao);
 
    List<Animais> findAllByOrderByNomeAsc();
+
+
 }

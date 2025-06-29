@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -71,5 +72,11 @@ public class ProntuarioService {
 
         prontuarioRepository.save(prontuario);
     }
+
+    @Transactional(readOnly = true)
+    public Optional<Prontuarios> findByAnimalId(Integer animalId) {
+        return prontuarioRepository.findByAnimalId(animalId);
+    }
+
 
 }

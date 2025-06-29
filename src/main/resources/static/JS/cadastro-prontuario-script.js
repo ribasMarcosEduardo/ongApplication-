@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.preventDefault(); // Impede o envio do formulário
                 alert('Por favor, corrija os seguintes erros:\n\n- ' + errors.join('\n- '));
             }
+
         });
     }
 

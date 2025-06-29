@@ -40,6 +40,11 @@ public class AnimalService {
 
     public void deletarPorId(int id) {
         repository.deleteById(id);
+
+    }
+
+    public List<Animais> findAllOrderedByName() {
+        return repository.findAllByOrderByNomeAsc();
     }
 
 
