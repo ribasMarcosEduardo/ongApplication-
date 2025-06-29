@@ -1,9 +1,10 @@
 package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.UsuarioDTO;
+import bdTrabalho.OngAplication.model.ENUM.Genero;
 import bdTrabalho.OngAplication.service.UsuarioService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,14 +16,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/usuario")
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     @GetMapping("/cadastroUsuario")
     public String cadastroUsuario(Model model) {
-        model.addAttribute("UsuarioDTO", new bdTrabalho.OngAplication.dto.UsuarioDTO());
+        model.addAttribute("UsuarioDTO", new UsuarioDTO(null, null, null, null, null, ' ', null, null));
+        model.addAttribute("generos", Genero.values());
         return "Cadastros/usuarioCadastro";
     }
 
@@ -35,16 +37,14 @@ public class UsuarioController {
         }
 
         try {
+            // Tenta criar o usuário. Se o Validator do Service lançar um erro (CPF duplicado)...
             usuarioService.criarUsuario(usuarioDTO);
-            //Mensagem que aparece depois de cadastrar com sucesso
             redirectAttributes.addFlashAttribute("sucesso", "Usuário cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
-            //Validação de erros
             result.rejectValue("cpf", "error.usuarioDTO", e.getMessage());
             return "Cadastros/usuarioCadastro";
         }
-
-        //Volta para a página de cadastro após ser salvo
+        // Se tudo deu certo, redireciona para a página de cadastro limpa.
         return "redirect:/usuario/cadastroUsuario";
     }
 }

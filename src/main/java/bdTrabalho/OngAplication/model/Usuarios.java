@@ -1,6 +1,6 @@
 package bdTrabalho.OngAplication.model;
 
-import bdTrabalho.OngAplication.model.EMUN.Genero;
+import bdTrabalho.OngAplication.model.ENUM.Genero;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -28,7 +28,7 @@ public class Usuarios {
     private LocalDate dataNascimento;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "genero")
+    @Column(name = "genero", nullable = false, length = 20)
     private Genero genero;
 
     @Column(name = "tipo", nullable = false, length = 1)

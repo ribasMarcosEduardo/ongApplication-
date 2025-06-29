@@ -1,38 +1,70 @@
 package bdTrabalho.OngAplication.dto;
 
-import bdTrabalho.OngAplication.model.EMUN.Genero;
-import br.com.caelum.stella.bean.validation.CPF;
+import bdTrabalho.OngAplication.model.ENUM.Genero;
+import bdTrabalho.OngAplication.model.Usuarios;
+import org.hibernate.validator.constraints.br.CPF;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Data
-public class UsuarioDTO {
+//Transformado em um 'record'
+public record UsuarioDTO(
 
-    @NotBlank(message = "O nome não pode estar em branco.")
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres.")
-    private String nome;
+        Integer id,
 
-    @NotBlank(message = "O CPF não pode estar em branco.")
-    @CPF(message = "O CPF fornecido é inválido.") //Notação da biblioteca Stella
-    private String cpf;
+        @NotBlank(message = "O nome não pode estar em branco.")
+        @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres.")
+        String nome,
 
-    @NotNull(message = "A data de nascimento não pode ser nula.")
-    @Past(message = "A data de nascimento deve ser no passado.")
-    private LocalDate dataNascimento;
+        @NotBlank(message = "O CPF não pode estar em branco.")
+        @CPF(message = "O CPF fornecido é inválido.")
+        String cpf,
 
-    private Genero genero;  //ENUM estabelecido anres.
+        @NotNull(message = "A data de nascimento não pode ser nula.")
+        @Past(message = "A data de nascimento deve ser no passado.")
+        LocalDate dataNascimento,
 
-    @NotNull(message = "O tipo não pode ser nulo.")
-    private char tipo;
+        Genero genero,
 
-    private String foto;    //Opcional
+        @NotNull(message = "O tipo não pode ser nulo.")
+        char tipo,
 
-    @NotBlank(message = "A senha não pode estar em branco.")
-    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres.")
-    private String senha;
+        String foto,
+
+        @NotBlank(message = "A senha não pode estar em branco.")
+        @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres.")
+        String senha
+) {
+
+    // Método para converter DTO em Entidade
+    public Usuarios toEntity() {
+        Usuarios usuario = new Usuarios();
+        usuario.setNome(this.nome);
+        usuario.setCpf(this.cpf);
+        usuario.setDataNascimento(this.dataNascimento);
+        usuario.setSenha(this.senha); // TODO: criptografar a senha no service depois
+        usuario.setGenero(this.genero);
+        usuario.setTipo(this.tipo);
+        usuario.setFoto(this.foto);
+        usuario.setDataCadastro(LocalDateTime.now());
+        return usuario;
+    }
+
+    // Método para criar DTO a partir de uma Entidade
+    public static UsuarioDTO fromEntity(Usuarios usuario) {
+        return new UsuarioDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getCpf(),
+                usuario.getDataNascimento(),
+                usuario.getGenero(),
+                usuario.getTipo(),
+                usuario.getFoto(),
+                null
+        );
+    }
 }

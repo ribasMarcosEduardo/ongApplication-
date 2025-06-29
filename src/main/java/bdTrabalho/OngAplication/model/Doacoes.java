@@ -1,7 +1,7 @@
 package bdTrabalho.OngAplication.model;
 
 
-import bdTrabalho.OngAplication.model.EMUN.SituacaoDoacao;
+import bdTrabalho.OngAplication.model.ENUM.SituacaoDoacao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

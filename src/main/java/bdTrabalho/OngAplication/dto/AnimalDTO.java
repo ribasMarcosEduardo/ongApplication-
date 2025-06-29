@@ -1,8 +1,8 @@
 package bdTrabalho.OngAplication.dto;
 
 import bdTrabalho.OngAplication.model.Animais;
-import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
-import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
+import bdTrabalho.OngAplication.model.ENUM.PorteAnimal;
+import bdTrabalho.OngAplication.model.ENUM.TipoAnimal;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;

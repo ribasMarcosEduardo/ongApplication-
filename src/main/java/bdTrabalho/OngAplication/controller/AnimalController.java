@@ -2,9 +2,8 @@ package bdTrabalho.OngAplication.controller;
 
 import bdTrabalho.OngAplication.dto.AnimalDTO;
 import bdTrabalho.OngAplication.model.Animais;
-import bdTrabalho.OngAplication.model.Campanhas;
-import bdTrabalho.OngAplication.model.EMUN.PorteAnimal;
-import bdTrabalho.OngAplication.model.EMUN.TipoAnimal;
+import bdTrabalho.OngAplication.model.ENUM.PorteAnimal;
+import bdTrabalho.OngAplication.model.ENUM.TipoAnimal;
 import bdTrabalho.OngAplication.service.AnimalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
