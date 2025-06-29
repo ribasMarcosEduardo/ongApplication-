@@ -47,7 +47,7 @@ public class Animais {
     private Double peso;
 
     @Column(nullable = false, length = 1)
-    private char sexo;
+    private Character sexo;
 
     @Column(nullable = false, length = 1)
     private char situacao;

@@ -84,6 +84,9 @@ public class AnimalController {
         AnimalDTO animalDTO = AnimalDTO.fromEntity(animalExistente);
 
         model.addAttribute("animalDTO", animalDTO);
+        model.addAttribute("tiposDeAnimal", TipoAnimal.values());
+        model.addAttribute("portesDeAnimal", PorteAnimal.values());
+
         return "cadastros/animalCadastro";
 
     }

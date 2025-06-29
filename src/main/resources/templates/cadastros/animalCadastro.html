@@ -59,10 +59,10 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="sexo">Sexo:</label>
-                        <select class="form-select" id="sexo" name="sexo" required>
+                        <select class="form-select" id="sexo" th:field="*{sexo}" required>
                             <option value="">Selecione</option>
-                            <option value="M" th:selected="*{sexo() != null and sexo() == 'M'}">Macho</option>
-                            <option value="F" th:selected="*{sexo() != null and sexo() == 'F'}">Fêmea</option>
+                            <option value="M">Macho</option>
+                            <option value="F">Fêmea</option>
                         </select>
                     </div>
                 </div>
