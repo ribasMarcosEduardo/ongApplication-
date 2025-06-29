@@ -29,11 +29,15 @@ public class CampanhaService {
     }
 
     public List<Campanhas> findAll() {
-        return repository.findAll();
+        return repository.findAllByOrderByNomeAsc();
     }
 
     public Optional<Campanhas> findById(int id) {
         return repository.findById(id);
+    }
+
+    public void deletarPorId(int id) {
+        repository.deleteById(id);
     }
 
 }
