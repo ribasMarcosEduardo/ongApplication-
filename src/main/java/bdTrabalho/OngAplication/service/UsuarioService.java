@@ -3,6 +3,8 @@ package bdTrabalho.OngAplication.service;
 import bdTrabalho.OngAplication.model.Usuarios;
 import bdTrabalho.OngAplication.dto.UsuarioDTO;
 import bdTrabalho.OngAplication.repository.UsuarioRepository;
+import bdTrabalho.OngAplication.validator.UsuarioValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,29 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final UsuarioValidator usuarioValidator;
 
     @Transactional
     public Usuarios criarUsuario(UsuarioDTO usuarioDTO) {
-        // Validação de negócio (ex: verificar CPF duplicado)
-        if (usuarioRepository.existsByCpf(usuarioDTO.getCpf())) {
-            throw new IllegalArgumentException("CPF já cadastrado no sistema.");
-        }
-
-        Usuarios novoUsuario = new Usuarios();
-        novoUsuario.setNome(usuarioDTO.getNome());
-        novoUsuario.setCpf(usuarioDTO.getCpf());
-        novoUsuario.setDataNascimento(usuarioDTO.getDataNascimento());
-        novoUsuario.setSenha(usuarioDTO.getSenha());
-        novoUsuario.setGenero(usuarioDTO.getGenero());
-        novoUsuario.setTipo(usuarioDTO.getTipo());
-        novoUsuario.setFoto(usuarioDTO.getFoto());
-        novoUsuario.setDataCadastro(LocalDateTime.now());
-
-
+        usuarioValidator.validarNovoUsuario(usuarioDTO);
+        Usuarios novoUsuario = usuarioDTO.toEntity();
         return usuarioRepository.save(novoUsuario);
     }
 }
