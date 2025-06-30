@@ -112,3 +112,9 @@
     background-color: #f0f2f5;
  }
 
+ .animal-photo {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 5px;
+    }

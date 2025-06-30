@@ -1,5 +1,6 @@
 package bdTrabalho.OngAplication.service;
 
+import bdTrabalho.OngAplication.model.Animais;
 import bdTrabalho.OngAplication.model.Usuarios;
 import bdTrabalho.OngAplication.dto.UsuarioDTO;
 import bdTrabalho.OngAplication.repository.UsuarioRepository;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,4 +27,13 @@ public class UsuarioService {
         Usuarios novoUsuario = usuarioDTO.toEntity();
         return usuarioRepository.save(novoUsuario);
     }
+
+    public List<Usuarios> findAll() {
+        return usuarioRepository.findAllByOrderByNomeAsc();
+    }
+
+    public Optional<Usuarios> findById(int id) {
+        return usuarioRepository.findById(id);
+    }
+
 }
