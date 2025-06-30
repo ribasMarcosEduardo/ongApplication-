@@ -37,7 +37,6 @@ public class EnderecoController {
         carregarDadosParaFormulario(model);
         return "cadastros/enderecoCadastro";
     }
-
     @PostMapping("/salvar")
     public String salvarEndereco(@Valid @ModelAttribute("enderecoDTO") EnderecoDTO enderecoDTO,
                                  BindingResult result,
