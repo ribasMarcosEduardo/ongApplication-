@@ -1,6 +1,8 @@
 package bdTrabalho.OngAplication.service;
 
 import bdTrabalho.OngAplication.model.Animais;
+import bdTrabalho.OngAplication.model.ENUM.PorteAnimal;
+import bdTrabalho.OngAplication.model.ENUM.TipoAnimal;
 import bdTrabalho.OngAplication.repository.AnimalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,6 @@ public class AnimalService {
     public Animais saveAnimal(Animais animal){
         return repository.save(animal);
     }
-
-    //public List<Animais> findAll(){
-     //   return repository.findAll();
-    //}
 
     public List<Animais> findAll() {
         return repository.findAllByOrderByNomeAsc();
@@ -47,6 +45,9 @@ public class AnimalService {
         return repository.findAllByOrderByNomeAsc();
     }
 
-
+    // Método para a busca com filtros na vitrine
+    public List<Animais> findAnimaisDisponiveisComFiltros(TipoAnimal tipo, String cor) {
+        return repository.findAnimaisDisponiveisComFiltros(tipo, cor);
+    }
 
 }
