@@ -12,8 +12,8 @@
         <section class="borda-container">
             <h3 style="text-align: center; margin-bottom: 1.5rem;">Usuários Cadastrados no Sistema</h3>
 
-            <div th:if="${Sucesso}" class="alert alert-success" role="alert" th:text="${Sucesso}"></div>
-            <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
+            <div th:if="${sucesso}" class="alert alert-success" role="alert" th:text="${sucesso}"></div>
+            <div th:if="${erro}" class="alert alert-danger" role="alert" th:text="${erro}"></div>
 
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle">
@@ -30,11 +30,15 @@
                         <td th:text="${usuario.cpf}"></td>
 
                         <td class="text-center">
-                            <a th:href="@{/usuario/editarUsuario(id=${usuario.id})}" class="btn btn-warning btn-sm" title="Editar Usuário"><i class="bi bi-pencil-fill"></i></a>
+                            <a th:href="@{/usuario/editar(id=${usuario.id})}" class="btn btn-warning btn-sm" title="Editar Usuário">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+
                             <a th:href="@{/usuario/excluir(id=${usuario.id})}" class="btn btn-danger btn-sm" title="Excluir Usuário"
-                               onclick="return confirm('Tem certeza que deseja excluir este usuário?');"><i class="bi bi-trash-fill"></i></a>
+                               onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
                         </td>
-                    </tr>
                     <tr th:if="${#lists.isEmpty(listaUsuarios)}">
                         <td colspan="3" class="text-center">Nenhum usuário cadastrado no momento.</td>
                     </tr>
