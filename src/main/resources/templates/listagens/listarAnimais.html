@@ -63,7 +63,7 @@
                                 </span>
             </td>
             <td class="text-center">
-              <a th:href="@{/prontuario/ver(animalId=${animal.id})}" class="btn btn-info btn-sm" title="Ver Prontuário"><i class="bi bi-file-earmark-medical-fill"></i></a>
+              <a th:href="@{/prontuario/editar(animalId=${animal.id})}" class="btn btn-info btn-sm" title="Editar Prontuário"><i class="bi bi-file-earmark-medical-fill"></i></a>
               <a th:href="@{/animal/editarAnimal(id=${animal.id})}" class="btn btn-warning btn-sm" title="Editar Animal"><i class="bi bi-pencil-fill"></i></a>
               <a th:href="@{/animal/excluir(id=${animal.id})}" class="btn btn-danger btn-sm" title="Excluir Animal"
                  onclick="return confirm('Tem certeza que deseja excluir este animal?');"><i class="bi bi-trash-fill"></i></a>

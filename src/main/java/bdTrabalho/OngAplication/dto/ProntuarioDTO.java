@@ -13,33 +13,32 @@ public record ProntuarioDTO(
         String observacoesGerais,
         String alergias,
         String deficiencia,
-        Character castrado,
+        Boolean castrado,
         Integer animalId,
         Set<Integer> doencaIds,
         Set<Integer> vacinaIds
 ) {
 
+
     public static ProntuarioDTO fromEntity(Prontuarios prontuario) {
-        // Converte a lista de entidades Doencas para uma lista de IDs
-        Set<Integer> doencasIds = prontuario.getDoencas() == null ? Collections.emptySet() :
-                prontuario.getDoencas().stream()
-                        .map(Doencas::getId)
-                        .collect(Collectors.toSet());
 
-        // O mesmo para as vacinas
-        Set<Integer> vacinasIds = prontuario.getVacinas() == null ? Collections.emptySet() :
-                prontuario.getVacinas().stream()
-                        .map(Vacinas::getId)
-                        .collect(Collectors.toSet());
+        Integer animalId = (prontuario.getAnimal() != null) ? prontuario.getAnimal().getId() : null;
 
-        // Chama o construtor principal do record com os dados convertidos
+        Set<Integer> doencasIds = (prontuario.getDoencas() != null)
+                ? prontuario.getDoencas().stream().map(Doencas::getId).collect(Collectors.toSet())
+                : Collections.emptySet();
+
+        Set<Integer> vacinasIds = (prontuario.getVacinas() != null)
+                ? prontuario.getVacinas().stream().map(Vacinas::getId).collect(Collectors.toSet())
+                : Collections.emptySet();
+
         return new ProntuarioDTO(
                 prontuario.getId(),
                 prontuario.getObservacoesGerais(),
                 prontuario.getAlergias(),
                 prontuario.getDeficiencia(),
                 prontuario.getCastrado(),
-                prontuario.getAnimal().getId(), // Pega apenas o ID do animal
+                prontuario.getAnimal().getId(),
                 doencasIds,
                 vacinasIds
         );

@@ -15,4 +15,9 @@ public record VacinaDTO(
         vacina.setCodigo(this.codigo);
         return vacina;
     }
+
+    public static VacinaDTO fromEntity(Vacinas vacina) {
+        return new VacinaDTO(vacina.getId(), vacina.getCodigo(), vacina.getNome());
+    }
+
 }

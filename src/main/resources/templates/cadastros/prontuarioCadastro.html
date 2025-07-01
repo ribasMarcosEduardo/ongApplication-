@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head :: head-default}">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/padrao.css">
-    <title>Cadastro de Prontuário</title>
-
+    <title>Gerenciar Prontuário</title>
 </head>
 <body>
 
@@ -14,42 +9,34 @@
 
 <div class="container mt-5">
     <section class="borda-container">
-        <h3 style="text-align: center; margin-bottom: 1.5rem;">Cadastro de Novo Prontuário</h3>
+        <h3 style="text-align: center; margin-bottom: 1.5rem;"
+            th:text="${prontuarioDTO.id == 0 || prontuarioDTO.id == null} ? 'Cadastro de Novo Prontuário' : 'Edição do Prontuário de ' + ${animalNome}">
+        </h3>
 
-        <div th:if="${Sucesso}" class="alert alert-success" role="alert" th:text="${Sucesso}"></div>
-        <div th:if="${Erro}" class="alert alert-danger" role="alert" th:text="${Erro}"></div>
-        <div th:if="${MensagemPadrao}" class="alert alert-danger" role="alert" th:text="${MensagemPadrao}"></div>
+        <div th:if="${sucesso}" class="alert alert-success" role="alert" th:text="${sucesso}"></div>
+        <div th:if="${erro}" class="alert alert-danger" role="alert" th:text="${erro}"></div>
 
-        <form id="form-prontuario" th:action="@{/prontuario/salvarProntuario}" th:object="${prontuarioDTO}"
-              method="post">
-
+        <form id="form-prontuario" th:action="@{/prontuario/salvarProntuario}" th:object="${prontuarioDTO}" method="post">
             <input type="hidden" th:field="*{id}">
-
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label" for="animalNome">Animal:</label>
-
-                    <input type="hidden" id="animalId" th:field="*{animalId}" required>
-
+                    <input type="hidden" id="animalId" th:field="*{animalId}">
                     <div class="input-group">
-                        <input type="text" id="animalNome" class="form-control" placeholder="Nenhum animal selecionado" readonly>
-                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAnimais"
-                                th:disabled="${prontuarioDTO.id > 0}">
+                        <input type="text" id="animalNome" class="form-control" th:value="${animalNome}" placeholder="Selecione um animal..." readonly>
+                        <button th:if="${prontuarioDTO.animalId == null}" class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAnimais">
                             Selecionar...
                         </button>
-                        <div class="invalid-feedback">
-                            Por favor, selecione um animal.
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Castrado?</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="castradoSim" th:field="*{castrado}" value="S">
+                        <input class="form-check-input" type="radio" id="castradoSim" th:field="*{castrado}" value="true">
                         <label class="form-check-label" for="castradoSim">Sim</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="castradoNao" th:field="*{castrado}" value="N">
+                        <input class="form-check-input" type="radio" id="castradoNao" th:field="*{castrado}" value="false">
                         <label class="form-check-label" for="castradoNao">Não</label>
                     </div>
                 </div>
@@ -67,59 +54,35 @@
             <div class="row mb-3">
                 <div class="col-12">
                     <label class="form-label" for="observacoesGerais">Observações Gerais:</label>
-                    <textarea class="form-control" id="observacoesGerais" th:field="*{observacoesGerais}"
-                              rows="3"></textarea>
+                    <textarea class="form-control" id="observacoesGerais" th:field="*{observacoesGerais}" rows="3"></textarea>
                 </div>
             </div>
-
             <hr>
-
             <div class="row mb-3">
                 <div class="col-12">
                     <h5>Doenças Registradas</h5>
                     <table class="table table-sm table-bordered" id="tabelaDoencasSelecionadas">
-                        <thead>
-                        <tr>
-                            <th>CID</th>
-                            <th>Nome da Doença</th>
-                            <th>Ação</th>
-                        </tr>
-                        </thead>
+                        <thead><tr><th>CID</th><th>Nome da Doença</th><th>Ação</th></tr></thead>
                         <tbody></tbody>
                     </table>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#modalDoencas">
-                        Adicionar Doença
-                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDoencas">Adicionar Doença</button>
                 </div>
             </div>
-
             <div class="row mb-3">
                 <div class="col-12">
                     <h5>Vacinas Aplicadas</h5>
                     <table class="table table-sm table-bordered" id="tabelaVacinasSelecionadas">
-                        <thead>
-                        <tr>
-                            <th>Nome da Vacina</th>
-                            <th>Código/Lote</th>
-                            <th>Ação</th>
-                        </tr>
-                        </thead>
+                        <thead><tr><th>Nome da Vacina</th><th>Código/Lote</th><th>Ação</th></tr></thead>
                         <tbody></tbody>
                     </table>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#modalVacinas">
-                        Adicionar Vacina
-                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVacinas">Adicionar Vacina</button>
                 </div>
             </div>
-
             <div id="hidden-inputs-container"></div>
-
             <div class="row mt-4">
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-success me-2">Salvar Prontuário</button>
-                    <a th:href="@{/}" class="btn btn-danger">Cancelar</a>
+                    <a th:href="@{/animal/listaAnimal}" class="btn btn-danger">Cancelar</a>
                 </div>
             </div>
         </form>
@@ -134,32 +97,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <input type="text" id="pesquisaAnimalInput" class="form-control mb-3"
-                       placeholder="Pesquisar por nome...">
-
+                <input type="text" id="pesquisaAnimalInput" class="form-control mb-3" placeholder="Pesquisar por nome...">
                 <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Tipo</th>
-                        <th>Raça</th>
-                        <th>Ação</th>
-                    </tr>
-                    </thead>
+                    <thead><tr><th>Nome</th><th>Tipo</th><th>Raça</th><th>Ação</th></tr></thead>
                     <tbody id="tabelaAnimaisBody">
                     <tr th:each="animal : ${allAnimais}">
                         <td th:text="${animal.nome}"></td>
                         <td th:text="${animal.tipo.displayName}"></td>
                         <td th:text="${animal.raca}"></td>
                         <td>
-                            <button type="button" class="btn btn-success btn-sm"
-                                    th:attr="onclick=|selecionarAnimal(${animal.id}, '${animal.nome}')|">
+                            <button type="button" class="btn btn-success btn-sm btn-selecionar-animal"
+                                    th:data-id="${animal.id}" th:data-nome="${animal.nome}">
                                 Selecionar
                             </button>
                         </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(allAnimais)}">
-                        <td colspan="4" class="text-center">Nenhum animal cadastrado.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -171,25 +122,19 @@
 <div class="modal fade" id="modalDoencas" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header"><h5 class="modal-title">Selecionar Doença</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+            <div class="modal-header"><h5 class="modal-title">Selecionar Doença</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
             <div class="modal-body">
                 <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>CID</th>
-                        <th>Nome</th>
-                        <th>Ação</th>
-                    </tr>
-                    </thead>
+                    <thead><tr><th>CID</th><th>Nome</th><th>Ação</th></tr></thead>
                     <tbody>
                     <tr th:each="doenca : ${allDoencas}">
                         <td th:text="${doenca.cid}"></td>
                         <td th:text="${doenca.nome}"></td>
                         <td>
-                            <button type="button" class="btn btn-success btn-sm"
-                                    th:attr="onclick=|selecionarDoenca(${doenca.id}, '${doenca.cid}', '${doenca.nome}')|">
+                            <button type="button" class="btn btn-success btn-sm btn-selecionar-doenca"
+                                    th:data-id="${doenca.id}"
+                                    th:data-cid="${doenca.cid}"
+                                    th:data-nome="${doenca.nome}">
                                 Selecionar
                             </button>
                         </td>
@@ -204,25 +149,19 @@
 <div class="modal fade" id="modalVacinas" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header"><h5 class="modal-title">Selecionar Vacina</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+            <div class="modal-header"><h5 class="modal-title">Selecionar Vacina</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
             <div class="modal-body">
                 <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Código/Lote</th>
-                        <th>Ação</th>
-                    </tr>
-                    </thead>
+                    <thead><tr><th>Nome</th><th>Código/Lote</th><th>Ação</th></tr></thead>
                     <tbody>
                     <tr th:each="vacina : ${allVacinas}">
                         <td th:text="${vacina.nome}"></td>
                         <td th:text="${vacina.codigo}"></td>
                         <td>
-                            <button type="button" class="btn btn-success btn-sm"
-                                    th:attr="onclick=|selecionarVacina(${vacina.id}, '${vacina.nome}', '${vacina.codigo}')|">
+                            <button type="button" class="btn btn-success btn-sm btn-selecionar-vacina"
+                                    th:data-id="${vacina.id}"
+                                    th:data-nome="${vacina.nome}"
+                                    th:data-codigo="${vacina.codigo}">
                                 Selecionar
                             </button>
                         </td>
@@ -236,17 +175,10 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-
-    // As variáveis abaixo agora existirão globalmente para o seu script .js usar
-    const animalInicial = /*[[${animalDoProntuario}]]*/ null;
-    const doencasIniciais = /*[[${doencasIniciais}]]*/ [];
-    const vacinasIniciais = /*[[${vacinasIniciais}]]*/ [];
-
+    const prontuarioData = /*[[${prontuarioDTO}]]*/ null;
+    const todasAsDoencas = /*[[${allDoencas}]]*/ [];
+    const todasAsVacinas = /*[[${allVacinas}]]*/ [];
     /*]]>*/
-</script>
-
-<script>
-    setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

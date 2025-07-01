@@ -15,4 +15,8 @@ public record DoencaDTO(
         doenca.setNome(this.nome);
         return doenca;
     }
+
+    public static DoencaDTO fromEntity(Doencas doenca) {
+        return new DoencaDTO(doenca.getId(), doenca.getCid(), doenca.getNome());
+    }
 }

@@ -1,156 +1,157 @@
-// Objeto para guardar o estado dos itens selecionados
-const prontuarioState = {
-    doencasSelecionadas: [],
-    vacinasSelecionadas: []
-};
+document.addEventListener('DOMContentLoaded', () => {
 
-// Função de atalho para document.querySelector
-const $ = (selector) => document.querySelector(selector);
+    const prontuarioState = {
+        doencasSelecionadas: new Map(),
+        vacinasSelecionadas: new Map()
+    };
 
+    const modais = {
+        animais: bootstrap.Modal.getOrCreateInstance(document.querySelector('#modalAnimais')),
+        doencas: bootstrap.Modal.getOrCreateInstance(document.querySelector('#modalDoencas')),
+        vacinas: bootstrap.Modal.getOrCreateInstance(document.querySelector('#modalVacinas'))
+    };
 
-// --- LÓGICA PARA ANIMAIS ---
-function selecionarAnimal(id, nome) {
-    console.log(`Função selecionarAnimal chamada com ID: ${id}, Nome: ${nome}`);
-    try {
-        const animalIdInput = $('#animalId');
-        const animalNomeInput = $('#animalNome');
-
-        animalIdInput.value = id;
-        animalNomeInput.value = nome;
-
-        // Remove a classe de erro ao selecionar um animal
-        animalNomeInput.classList.remove('is-invalid');
-
-        const modalElement = $('#modalAnimais');
-        const modal = bootstrap.Modal.getInstance(modalElement);
-        modal.hide();
-    } catch (e) {
-        console.error("ERRO DENTRO DE selecionarAnimal:", e);
+    // --- FUNÇÕES DE ATUALIZAÇÃO DE TELA ---
+    function atualizarTabelaDoencas() {
+        const tbody = document.querySelector('#tabelaDoencasSelecionadas tbody');
+        tbody.innerHTML = '';
+        prontuarioState.doencasSelecionadas.forEach((d) => {
+            tbody.innerHTML += `<tr>
+                <td>${d.cid}</td>
+                <td>${d.nome}</td>
+                <td><button type="button" class="btn btn-danger btn-sm btn-remover-doenca" data-id="${d.id}">Remover</button></td>
+            </tr>`;
+        });
+        atualizarHiddenInputs();
     }
-}
 
-function filtrarAnimais() {
-    const termoBusca = $('#pesquisaAnimalInput').value.toLowerCase();
-    const linhasTabela = document.querySelectorAll('#tabelaAnimaisBody tr');
-    linhasTabela.forEach(linha => {
-        const nomeAnimal = linha.cells[0].textContent.toLowerCase();
-        if (nomeAnimal.includes(termoBusca)) {
-            linha.style.display = '';
-        } else {
-            linha.style.display = 'none';
+    function atualizarTabelaVacinas() {
+        const tbody = document.querySelector('#tabelaVacinasSelecionadas tbody');
+        tbody.innerHTML = '';
+        prontuarioState.vacinasSelecionadas.forEach((v) => {
+            tbody.innerHTML += `<tr>
+                <td>${v.nome}</td>
+                <td>${v.codigo || ''}</td>
+                <td><button type="button" class="btn btn-danger btn-sm btn-remover-vacina" data-id="${v.id}">Remover</button></td>
+            </tr>`;
+        });
+        atualizarHiddenInputs();
+    }
+
+    function atualizarHiddenInputs() {
+        const container = document.querySelector('#hidden-inputs-container');
+        let inputsHTML = '';
+        prontuarioState.doencasSelecionadas.forEach(d => {
+            inputsHTML += `<input type="hidden" name="doencaIds" value="${d.id}">`;
+        });
+        prontuarioState.vacinasSelecionadas.forEach(v => {
+            inputsHTML += `<input type="hidden" name="vacinaIds" value="${v.id}">`;
+        });
+        container.innerHTML = inputsHTML;
+    }
+
+    // --- LÓGICA DE INICIALIZAÇÃO PARA EDIÇÃO ---
+    function inicializarFormularioDeEdicao() {
+        if (!prontuarioData || !prontuarioData.id || prontuarioData.id === 0) return;
+
+        if (prontuarioData.doencaIds && todasAsDoencas) {
+            prontuarioData.doencaIds.forEach(id => {
+                const doenca = todasAsDoencas.find(d => d.id === id);
+                if (doenca) prontuarioState.doencasSelecionadas.set(id, doenca);
+            });
+            atualizarTabelaDoencas();
+        }
+
+        if (prontuarioData.vacinaIds && todasAsVacinas) {
+            prontuarioData.vacinaIds.forEach(id => {
+                const vacina = todasAsVacinas.find(v => v.id === id);
+                if (vacina) prontuarioState.vacinasSelecionadas.set(id, vacina);
+            });
+            atualizarTabelaVacinas();
+        }
+    }
+
+    // --- OUVINTES DE EVENTOS (EVENT LISTENERS) ---
+
+    // Ouve cliques no corpo do modal de animais
+    document.querySelector('#modalAnimais .modal-body').addEventListener('click', function (event) {
+        const target = event.target.closest('.btn-selecionar-animal');
+        if (target) {
+            document.querySelector('#animalId').value = target.dataset.id;
+            document.querySelector('#animalNome').value = target.dataset.nome;
+            modais.animais.hide();
         }
     });
-}
 
+    // Ouve cliques no corpo do modal de doenças
+    document.querySelector('#modalDoencas .modal-body').addEventListener('click', function (event) {
+        const target = event.target.closest('.btn-selecionar-doenca');
+        if (target) {
+            const id = parseInt(target.dataset.id, 10);
+            if (prontuarioState.doencasSelecionadas.has(id)) {
+                alert('Esta doença já foi adicionada.');
+                return;
+            }
+            prontuarioState.doencasSelecionadas.set(id, {
+                id: id,
+                cid: target.dataset.cid,
+                nome: target.dataset.nome
+            });
+            atualizarTabelaDoencas();
+            modais.doencas.hide();
+        }
+    });
 
-// --- LÓGICA PARA DOENÇAS ---
-function removerDoenca(index) {
-    prontuarioState.doencasSelecionadas.splice(index, 1);
-    atualizarTabelaDoencas();
-}
+    // Ouve cliques na tabela de doenças selecionadas para remover
+    document.querySelector('#tabelaDoencasSelecionadas').addEventListener('click', function (event) {
+        const target = event.target.closest('.btn-remover-doenca');
+        if (target) {
+            const id = parseInt(target.dataset.id, 10);
+            prontuarioState.doencasSelecionadas.delete(id);
+            atualizarTabelaDoencas();
+        }
+    });
 
-function selecionarDoenca(id, cid, nome) {
-    if (prontuarioState.doencasSelecionadas.some(d => d.id === id)) {
-        alert('Esta doença já foi adicionada.');
-        return;
-    }
-    prontuarioState.doencasSelecionadas.push({ id, cid, nome });
-    atualizarTabelaDoencas();
-    bootstrap.Modal.getInstance($('#modalDoencas')).hide();
-}
+    // Ouve cliques no corpo do modal de vacinas
+    document.querySelector('#modalVacinas .modal-body').addEventListener('click', function (event) {
+        const target = event.target.closest('.btn-selecionar-vacina');
+        if (target) {
+            const id = parseInt(target.dataset.id, 10);
+            if (prontuarioState.vacinasSelecionadas.has(id)) {
+                alert('Esta vacina já foi adicionada.');
+                return;
+            }
+            prontuarioState.vacinasSelecionadas.set(id, {
+                id: id,
+                nome: target.dataset.nome,
+                codigo: target.dataset.codigo
+            });
+            atualizarTabelaVacinas();
+            modais.vacinas.hide();
+        }
+    });
 
-function atualizarTabelaDoencas() {
-    const tbody = $('#tabelaDoencasSelecionadas tbody');
-    tbody.innerHTML = prontuarioState.doencasSelecionadas.map((d, index) => `
-        <tr>
-            <td>${d.cid}</td>
-            <td>${d.nome}</td>
-            <td><button type="button" class="btn btn-danger btn-sm" onclick="removerDoenca(${index})">Remover</button></td>
-        </tr>
-    `).join('');
-    atualizarHiddenInputs();
-}
+    // Ouve cliques na tabela de vacinas selecionadas para remover
+    document.querySelector('#tabelaVacinasSelecionadas').addEventListener('click', function (event) {
+        if (event.target.classList.contains('btn-remover-vacina')) {
+            const id = parseInt(event.target.dataset.id, 10);
+            prontuarioState.vacinasSelecionadas.delete(id);
+            atualizarTabelaVacinas();
+        }
+    });
 
-
-// --- LÓGICA PARA VACINAS ---
-function removerVacina(index) {
-    prontuarioState.vacinasSelecionadas.splice(index, 1);
-    atualizarTabelaVacinas();
-}
-
-function selecionarVacina(id, nome, codigo) {
-    if (prontuarioState.vacinasSelecionadas.some(v => v.id === id)) {
-        alert('Esta vacina já foi adicionada.');
-        return;
-    }
-    prontuarioState.vacinasSelecionadas.push({ id, nome, codigo });
-    atualizarTabelaVacinas();
-    bootstrap.Modal.getInstance($('#modalVacinas')).hide();
-}
-
-function atualizarTabelaVacinas() {
-    const tbody = $('#tabelaVacinasSelecionadas tbody');
-    tbody.innerHTML = prontuarioState.vacinasSelecionadas.map((v, index) => `
-        <tr>
-            <td>${v.nome}</td>
-            <td>${v.codigo}</td>
-            <td><button type="button" class="btn btn-danger btn-sm" onclick="removerVacina(${index})">Remover</button></td>
-        </tr>
-    `).join('');
-    atualizarHiddenInputs();
-}
-
-
-// --- LÓGICA COMUM E INICIALIZAÇÃO ---
-function atualizarHiddenInputs() {
-    const container = $('#hidden-inputs-container');
-    const doencaInputs = prontuarioState.doencasSelecionadas
-        .map(d => `<input type="hidden" name="doencaIds" value="${d.id}">`)
-        .join('');
-    const vacinaInputs = prontuarioState.vacinasSelecionadas
-        .map(v => `<input type="hidden" name="vacinaIds" value="${v.id}">`)
-        .join('');
-    container.innerHTML = doencaInputs + vacinaInputs;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Event listener para a barra de busca de animais
-    const pesquisaInput = $('#pesquisaAnimalInput');
+    // Filtro de pesquisa de animal
+    const pesquisaInput = document.querySelector('#pesquisaAnimalInput');
     if (pesquisaInput) {
-        pesquisaInput.addEventListener('keyup', filtrarAnimais);
-    }
-
-    // --- NOVA LÓGICA DE VALIDAÇÃO DE FORMULÁRIO ---
-    const form = $('#form-prontuario');
-    if (form) {
-        form.addEventListener('submit', function(event) {
-            const errors = []; // Lista para armazenar mensagens de erro
-
-            // 1. Validação do campo Animal
-            const animalIdInput = $('#animalId');
-            const animalNomeInput = $('#animalNome');
-            if (!animalIdInput.value || animalIdInput.value === '0') {
-                errors.push('O campo "Animal" é obrigatório.');
-                animalNomeInput.classList.add('is-invalid'); // Adiciona borda vermelha
-            } else {
-                animalNomeInput.classList.remove('is-invalid');
-            }
-
-            // 2. Validação do campo Castrado
-            const castradoChecked = document.querySelector('input[name="castrado"]:checked');
-            if (!castradoChecked) {
-                 errors.push('É obrigatório informar se o animal é "Castrado".');
-            }
-
-            // 3. Se houver erros, impede o envio e mostra o alerta
-            if (errors.length > 0) {
-                event.preventDefault(); // Impede o envio do formulário
-                alert('Por favor, corrija os seguintes erros:\n\n- ' + errors.join('\n- '));
-            }
-
+        pesquisaInput.addEventListener('keyup', () => {
+            const termoBusca = pesquisaInput.value.toLowerCase();
+            document.querySelectorAll('#tabelaAnimaisBody tr').forEach(linha => {
+                const nomeAnimal = linha.cells[0].textContent.toLowerCase();
+                linha.style.display = nomeAnimal.includes(termoBusca) ? '' : 'none';
+            });
         });
     }
 
-    // Remove as mensagens de sucesso/erro após 3 segundos
-    setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
+    // Inicializa o formulário (seja para edição ou não)
+    inicializarFormularioDeEdicao();
 });

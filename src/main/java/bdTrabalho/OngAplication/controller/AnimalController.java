@@ -43,7 +43,7 @@ public class AnimalController {
                              RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
 
-            return "Cadastros/animalCadastro";
+            return "/animal/listaAnimal";
         }
 
         try {
@@ -55,12 +55,12 @@ public class AnimalController {
             animalService.saveAnimal(animal);
 
             redirectAttributes.addFlashAttribute("Sucesso", "Animal salvo com sucesso!");
-            return "redirect:/animal/cadastroAnimal";
+            return "redirect:/animal/listaAnimal";
 
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("Erro", "Erro ao salvar animal: " + e.getMessage());
-            return "redirect:/animal/cadastroAnimal";
+            return "redirect:/animal/listaAnimal";
         }
         //MUITA COISA AINDA VAI SER APRIMORADA
     }

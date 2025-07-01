@@ -29,8 +29,8 @@ public class Prontuarios {
     @Column
     private String deficiencia;
 
-    @Column(nullable = false, length = 1)
-    private char castrado;
+    @Column(nullable = false)
+    private Boolean castrado;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")

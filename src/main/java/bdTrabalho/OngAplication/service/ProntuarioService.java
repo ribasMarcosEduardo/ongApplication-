@@ -26,30 +26,22 @@ public class ProntuarioService {
     private final VacinaRepository vacinaRepository;
     private final DoencaRepository doencaRepository;
     private final AnimalRepository animalRepository;
-
     private final ProntuarioValidator prontuarioValidator;
-
 
     @Transactional
     public void saveProntuario(ProntuarioDTO dto) {
+        Animais animal = animalRepository.findById(dto.animalId())
+                .orElseThrow(() -> new RuntimeException("Animal não encontrado com o ID: " + dto.animalId()));
 
         Prontuarios prontuario;
 
-        if (dto.id() == 0) {
-
+        if (dto.id() == 0 || dto.id() == 0) {
             prontuarioValidator.validateNewProntuario(dto);
-
             prontuario = new Prontuarios();
-
         } else {
-
             prontuario = prontuarioRepository.findById(dto.id())
                     .orElseThrow(() -> new RuntimeException("Prontuário não encontrado para o ID: " + dto.id()));
-
         }
-
-        Animais animal = animalRepository.findById(dto.animalId())
-                .orElseThrow(() -> new RuntimeException("Animal não encontrado com o ID: " + dto.animalId()));
 
         prontuario.setObservacoesGerais(dto.observacoesGerais());
         prontuario.setAlergias(dto.alergias());
@@ -57,17 +49,18 @@ public class ProntuarioService {
         if (dto.castrado() != null) {
             prontuario.setCastrado(dto.castrado());
         }
-
         prontuario.setAnimal(animal);
 
-        if (dto.doencaIds() != null) {
-            Set<Doencas> doencas = new HashSet<>(doencaRepository.findAllById(dto.doencaIds()));
-            prontuario.setDoencas(doencas);
+        prontuario.getDoencas().clear();
+        if (dto.doencaIds() != null && !dto.doencaIds().isEmpty()) {
+            Set<Doencas> novasDoencas = new HashSet<>(doencaRepository.findAllById(dto.doencaIds()));
+            prontuario.getDoencas().addAll(novasDoencas);
         }
 
-        if (dto.vacinaIds() != null) {
-            Set<Vacinas> vacinas = new HashSet<>(vacinaRepository.findAllById(dto.vacinaIds()));
-            prontuario.setVacinas(vacinas);
+        prontuario.getVacinas().clear();
+        if (dto.vacinaIds() != null && !dto.vacinaIds().isEmpty()) {
+            Set<Vacinas> novasVacinas = new HashSet<>(vacinaRepository.findAllById(dto.vacinaIds()));
+            prontuario.getVacinas().addAll(novasVacinas);
         }
 
         prontuarioRepository.save(prontuario);
@@ -77,6 +70,4 @@ public class ProntuarioService {
     public Optional<Prontuarios> findByAnimalId(Integer animalId) {
         return prontuarioRepository.findByAnimalId(animalId);
     }
-
-
 }

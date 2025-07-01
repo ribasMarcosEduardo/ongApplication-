@@ -17,8 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -32,17 +32,24 @@ public class ProntuarioController {
 
     @GetMapping("/cadastroProntuario")
     public String cadastroProntuario(Model model) {
-
         List<Animais> allAnimais = animalService.findAll();
-        List<Doencas> allDoencas = doencaService.findAll();
-        List<Vacinas> allVacinas = vacinaService.findAll();
+        List<Doencas> allDoencasEntidades = doencaService.findAll();
+        List<Vacinas> allVacinasEntidades = vacinaService.findAll();
 
-        model.addAttribute("prontuarioDTO", new ProntuarioDTO(0, null, null, null, 'N', null, null, null));
+        List<DoencaDTO> allDoencasDTO = allDoencasEntidades.stream()
+                .map(DoencaDTO::fromEntity)
+                .toList();
+        List<VacinaDTO> allVacinasDTO = allVacinasEntidades.stream()
+                .map(VacinaDTO::fromEntity)
+                .toList();
+
+        model.addAttribute("prontuarioDTO", new ProntuarioDTO(0, null, null, null, false, null, new HashSet<>(), new HashSet<>()));
+        model.addAttribute("animalNome", null);
         model.addAttribute("allAnimais", allAnimais);
-        model.addAttribute("allDoencas", allDoencas);
-        model.addAttribute("allVacinas", allVacinas);
+        model.addAttribute("allDoencas", allDoencasDTO);
+        model.addAttribute("allVacinas", allVacinasDTO);
 
-        return "Cadastros/prontuarioCadastro"; //http://localhost:8080/prontuario/cadastroProntuario
+        return "/prontuario/cadastroProntuario";
     }
 
     @PostMapping("/salvarProntuario")
@@ -50,14 +57,43 @@ public class ProntuarioController {
         try {
             prontuarioService.saveProntuario(prontuarioDTO);
             redirectAttributes.addFlashAttribute("Sucesso", "Prontuário salvo com sucesso!");
-            return "redirect:/prontuario/cadastroProntuario";
+            return "redirect:/animal/listaAnimal";
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("Erro", "Erro ao salvar prontuário: " + e.getMessage());
-            return "redirect:/prontuario/cadastroProntuario";
+            return "redirect:/animal/listaAnimal";
         }
     }
 
+    @GetMapping("/editar")
+    public String editarProntuario(@RequestParam("animalId") Integer animalId, Model model) {
+        // 1. Busca o animal. Se não existir, lança erro.
+        Animais animal = animalService.findById(animalId)
+                .orElseThrow(() -> new IllegalArgumentException("Animal não encontrado: " + animalId));
 
+        // 2. Busca o prontuário. Se não existir...
+        Prontuarios prontuario = prontuarioService.findByAnimalId(animalId)
+                .orElseGet(() -> {
+                    // ...cria um novo E JÁ ASSOCIA AO ANIMAL CORRETO.
+                    Prontuarios novoProntuario = new Prontuarios();
+                    novoProntuario.setAnimal(animal);
+                    // Inicializa com um valor padrão para 'castrado' para evitar outros erros
+                    novoProntuario.setCastrado(false);
+                    return novoProntuario;
+                });
 
+        // 3. Agora, quando fromEntity for chamado, prontuario.getAnimal() nunca será nulo.
+        ProntuarioDTO prontuarioDTO = ProntuarioDTO.fromEntity(prontuario);
+
+        // O resto do seu código para preparar o modelo
+        List<DoencaDTO> allDoencasDTO = doencaService.findAll().stream().map(DoencaDTO::fromEntity).toList();
+        List<VacinaDTO> allVacinasDTO = vacinaService.findAll().stream().map(VacinaDTO::fromEntity).toList();
+
+        model.addAttribute("prontuarioDTO", prontuarioDTO);
+        model.addAttribute("animalNome", animal.getNome());
+        model.addAttribute("allDoencas", allDoencasDTO);
+        model.addAttribute("allVacinas", allVacinasDTO);
+
+        return "Cadastros/prontuarioCadastro";
+    }
 }
