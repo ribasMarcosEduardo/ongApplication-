@@ -16,24 +16,24 @@
 <main class="content-flex-grow">
   <div class="container mt-4">
 
-    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="p-5 mb-4 bg-light rounded-3" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
       <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">Painel de Controle</h1>
         <p class="col-md-8 fs-4">Bem-vindo ao sistema de gerenciamento da Ong Adocão. Utilize os menus abaixo para navegar pelas funcionalidades.</p>
       </div>
     </div>
 
-    <div class="row mb-4 text-center">
+    <div class="row mb-4 text-center ">
       <div class="col-md-6 col-lg-3 mb-3">
-        <div class="card text-white bg-primary h-100">
+        <div class="card text-white bg-primary h-100" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
           <div class="card-body">
             <h5 class="card-title"><i class="bi bi-heart-pulse-fill"></i> Total de Animais</h5>
             <p class="display-4" th:text="${totalDeAnimais}">0</p>
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-lg-3 mb-3">
-        <div class="card text-white bg-success h-100">
+      <div class="col-md-6 col-lg-3 mb-3 ">
+        <div class="card text-white bg-success h-100" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
           <div class="card-body">
             <h5 class="card-title"><i class="bi bi-house-heart-fill"></i> Para Adoção</h5>
             <p class="display-4" th:text="${animaisDisponiveis}">0</p>
@@ -47,8 +47,8 @@
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
-      <div class="col">
-        <div class="card h-100">
+      <div class="col" >
+        <div class="card h-100" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
           <div class="card-header fs-5"><i class="bi bi-github"></i> Animais</div>
           <div class="card-body">
             <p class="card-text">Gerencie os animais da ONG, cadastre novos e veja a lista completa.</p>
@@ -61,7 +61,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100">
+        <div class="card h-100" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
           <div class="card-header fs-5"><i class="bi bi-file-earmark-medical-fill"></i> Prontuários</div>
           <div class="card-body">
             <p class="card-text">Crie e gerencie os registros médicos completos para cada animal.</p>
@@ -73,7 +73,7 @@
       </div>
 
       <div class="col">
-        <div class="card h-100">
+        <div class="card h-100" style="box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
           <div class="card-header fs-5"><i class="bi bi-journal-plus"></i> Cadastros Auxiliares</div>
           <div class="card-body">
             <p class="card-text">Gerencie os registros de vacinas, doenças e campanhas de arrecadação.</p>

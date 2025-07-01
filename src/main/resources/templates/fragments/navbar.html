@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-
 <body>
 
 <nav class="navbar navbar-expand-lg custom-header" th:fragment="navbar">
   <div class="container-fluid">
+
+    <a class="navbar-brand" th:href="@{/menuPrincipal}">
+      <img th:src="@{/icones/Pata.png}" alt="Logo da ONG" width="50">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
             aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -12,47 +15,33 @@
     <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Cadastros auxiliares
-          </button>
+          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Cadastros auxiliares</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" th:href="@{/doenca/cadastroDoenca}">Cadastrar doença</a></li>
             <li><a class="dropdown-item" th:href="@{/vacina/cadastroVacina}">Cadastrar vacina</a></li>
             <li><a class="dropdown-item" th:href="@{/endereco/cadastroEndereco}">Cadastrar endereço</a></li>
           </ul>
         </li>
-      </ul>
-
-      <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Animais
-          </button>
+          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Animais</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" th:href="@{/animal/listaAnimal}">Controle de Animais</a></li>
             <li><a class="dropdown-item" th:href="@{/prontuario/cadastroProntuario}">Cadastrar Prontuário</a></li>
           </ul>
         </li>
-      </ul>
-
-      <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Usuários
-          </button>
+          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Usuários</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" th:href="@{/usuario/listaUsuario}">Lista de usuário</a></li>
           </ul>
         </li>
-      </ul>
-
-      <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Campanhas
-          </button>
+          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Campanhas</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" th:href="@{/campanha/listaCampanha}">Controle de Campanhas</a></li>
           </ul>
         </li>
       </ul>
-
     </div>
   </div>
 </nav>
