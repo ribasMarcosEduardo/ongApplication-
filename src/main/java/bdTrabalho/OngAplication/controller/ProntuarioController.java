@@ -49,7 +49,7 @@ public class ProntuarioController {
         model.addAttribute("allDoencas", allDoencasDTO);
         model.addAttribute("allVacinas", allVacinasDTO);
 
-        return "/prontuario/cadastroProntuario";
+        return "Cadastros/prontuarioCadastro";
     }
 
     @PostMapping("/salvarProntuario")
@@ -67,25 +67,22 @@ public class ProntuarioController {
 
     @GetMapping("/editar")
     public String editarProntuario(@RequestParam("animalId") Integer animalId, Model model) {
-        // 1. Busca o animal. Se não existir, lança erro.
+
         Animais animal = animalService.findById(animalId)
                 .orElseThrow(() -> new IllegalArgumentException("Animal não encontrado: " + animalId));
 
-        // 2. Busca o prontuário. Se não existir...
         Prontuarios prontuario = prontuarioService.findByAnimalId(animalId)
                 .orElseGet(() -> {
-                    // ...cria um novo E JÁ ASSOCIA AO ANIMAL CORRETO.
+
                     Prontuarios novoProntuario = new Prontuarios();
                     novoProntuario.setAnimal(animal);
-                    // Inicializa com um valor padrão para 'castrado' para evitar outros erros
+
                     novoProntuario.setCastrado(false);
                     return novoProntuario;
                 });
 
-        // 3. Agora, quando fromEntity for chamado, prontuario.getAnimal() nunca será nulo.
         ProntuarioDTO prontuarioDTO = ProntuarioDTO.fromEntity(prontuario);
 
-        // O resto do seu código para preparar o modelo
         List<DoencaDTO> allDoencasDTO = doencaService.findAll().stream().map(DoencaDTO::fromEntity).toList();
         List<VacinaDTO> allVacinasDTO = vacinaService.findAll().stream().map(VacinaDTO::fromEntity).toList();
 

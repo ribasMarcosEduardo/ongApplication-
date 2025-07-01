@@ -6,8 +6,7 @@ public enum PorteAnimal {
     medio("Médio"),
     pequeno("Pequeno");
 
-    private final String displayName; // Campo para armazenar o nome de exibição
-
+    private final String displayName;
 
     PorteAnimal(String displayName) {
         this.displayName = displayName;
