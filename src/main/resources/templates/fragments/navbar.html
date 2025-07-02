@@ -17,28 +17,31 @@
         <li class="nav-item dropdown">
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Cadastros auxiliares</button>
           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/contato/cadastroContato}">Cadastrar contato</a></li>
             <li><a class="dropdown-item" th:href="@{/doenca/cadastroDoenca}">Cadastrar doença</a></li>
-            <li><a class="dropdown-item" th:href="@{/vacina/cadastroVacina}">Cadastrar vacina</a></li>
             <li><a class="dropdown-item" th:href="@{/endereco/cadastroEndereco}">Cadastrar endereço</a></li>
+            <li><a class="dropdown-item" th:href="@{/vacina/cadastroVacina}">Cadastrar vacina</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Animais</button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" th:href="@{/animal/listaAnimal}">Controle de animais</a></li>
             <li><a class="dropdown-item" th:href="@{/animal/cadastroAnimal}">Cadastrar animais</a></li>
             <li><a class="dropdown-item" th:href="@{/prontuario/cadastroProntuario}">Cadastrar prontuário</a></li>
+            <li><a class="dropdown-item" th:href="@{/animal/listaAnimal}">Controle de animais</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Usuários</button>
           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/usuario/cadastroUsuario}">Cadastrar usuário</a></li>
             <li><a class="dropdown-item" th:href="@{/usuario/listaUsuario}">Lista de usuário</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Adoções</button>
           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/adocao}">Animais disponíveis</a></li>
             <li><a class="dropdown-item" th:href="@{/adocao/cadastrar}">Cadastrar solicitação</a></li>
             <li><a class="dropdown-item" th:href="@{/adocao/listar}">Validação de adoções</a></li>
           </ul>
