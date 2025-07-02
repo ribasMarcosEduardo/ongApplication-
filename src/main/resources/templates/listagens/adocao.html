@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout('Quero Adotar!', ~{::section})}">
+      th:replace="~{fragments/layout :: layout('Quero Adotar!', ~{::section}, ~{::script})}">
 
 <head>
     <title>Quero Adotar!</title>
@@ -50,12 +50,86 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title" th:text="${animal.nome}">Nome do Animal</h5>
                         <p class="card-text flex-grow-1" th:text="${#strings.abbreviate(animal.descricao, 80)}">Breve descrição...</p>
-                        <a href="#" class="btn btn-success mt-auto">Ver Detalhes</a>
+
+                        <button type="button" class="btn btn-success mt-auto"
+                                data-bs-toggle="modal"
+                                data-bs-target="#detalheAnimalModal"
+                                th:attr="data-animal-id=${animal.id}">
+                            Ver Detalhes
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<div th:fragment="modals">
+
+    </div>
+</div>
+
+
+<script th:fragment="script" th:inline="javascript">
+    /*<![CDATA[*/
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const detalheModal = document.getElementById('detalheAnimalModal');
+        if(detalheModal) {
+            detalheModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const animalId = button.getAttribute('data-animal-id');
+
+                const modalTitle = detalheModal.querySelector('.modal-title');
+                const modalBody = detalheModal.querySelector('#modal-body-content');
+
+                modalTitle.textContent = 'Carregando detalhes...';
+                modalBody.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+                fetch(`/api/animal/detalhe/${animalId}`)
+                    .then(response => {
+                        if (!response.ok) { throw new Error('Não foi possível carregar os detalhes do animal.'); }
+                        return response.json();
+                    })
+                    .then(data => {
+                        modalTitle.textContent = 'Detalhes de ' + data.nome;
+
+                        let htmlCorpo = `<h4>Sobre mim:</h4><p>${data.historia || 'Nenhuma história cadastrada.'}</p><hr>`;
+
+                        if (data.prontuario) {
+                            htmlCorpo += `<h4>Prontuário Médico</h4>`;
+                            let castradoTexto = data.prontuario.castrado ? 'Sim' : 'Não';
+                            htmlCorpo += `<p><strong>Castrado:</strong> ${castradoTexto}</p>`;
+                            htmlCorpo += `<p><strong>Alergias:</strong> ${data.prontuario.alergias || 'Nenhuma'}</p>`;
+
+                            if (data.prontuario.doencas && data.prontuario.doencas.length > 0) {
+                                htmlCorpo += `<strong>Doenças Registradas:</strong><ul>`;
+                                data.prontuario.doencas.forEach(d => { htmlCorpo += `<li>${d.nome} (${d.cid})</li>`; });
+                                htmlCorpo += `</ul>`;
+                            }
+
+                            if (data.prontuario.vacinas && data.prontuario.vacinas.length > 0) {
+                                htmlCorpo += `<strong>Vacinas Aplicadas:</strong><ul>`;
+                                data.prontuario.vacinas.forEach(v => { htmlCorpo += `<li>${v.nome} (Lote: ${v.codigo})</li>`; });
+                                htmlCorpo += `</ul>`;
+                            }
+                        } else {
+                            htmlCorpo += `<p>Nenhum prontuário médico cadastrado.</p>`;
+                        }
+
+                        modalBody.innerHTML = htmlCorpo;
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        modalTitle.textContent = 'Erro';
+                        modalBody.innerHTML = `<p class="text-danger">Ocorreu um erro ao buscar os detalhes. Tente novamente.</p>`;
+                    });
+            });
+        }
+    });
+
+    /*]]>*/
+</script>
+
 </body>
 </html>
