@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head-default}">
+
+</head>
+<head> <title>Gerenciar Adoções</title></head>
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="d-flex flex-column min-vh-100">
+  <div class="container mt-5">
+    <section class="borda-container">
+      <h3 style="text-align: center; margin-bottom: 1.5rem;">Gerenciamento de Solicitações de Adoção</h3>
+
+      <div th:if="${sucesso}" class="alert alert-success" role="alert" th:text="${sucesso}"></div>
+      <div th:if="${erro}" class="alert alert-danger" role="alert" th:text="${erro}"></div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+          <thead class="table-dark">
+          <tr>
+            <th>Animal</th>
+            <th>Adotante</th>
+            <th>Data da Solicitação</th>
+            <th>Status</th>
+            <th class="text-center">Info</th>
+            <th class="text-center">Ações</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="adocao : ${listaAdocoes}">
+            <td th:text="${adocao.animal.nome}">Rex</td>
+            <td th:text="${adocao.usuario.nome}">João da Silva</td>
+            <td th:text="${#temporals.format(adocao.dataAdocao, 'dd/MM/yyyy HH:mm')}"></td>
+            <td>
+                                <span class="badge"
+                                      th:classappend="${adocao.situacao.name() == 'APROVADA' ? 'bg-success' : (adocao.situacao.name() == 'REPROVADA' ? 'bg-danger' : 'bg-warning text-dark')}"
+                                      th:text="${adocao.situacao.displayName}">
+                                </span>
+            </td>
+            <td class="text-center">
+                                <span th:if="${adocao.observacoes != null and !adocao.observacoes.isEmpty()}"
+                                      class="d-inline-block me-2" tabindex="0"
+                                      data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                      title="Observação do Adotante" th:data-bs-content="${adocao.observacoes}">
+                                    <i class="bi bi-info-circle-fill text-primary"></i>
+                                </span>
+              <span th:if="${adocao.situacao.name() == 'REPROVADA' and adocao.motivoReprovacao != null and !adocao.motivoReprovacao.isEmpty()}"
+                    class="d-inline-block" tabindex="0"
+                    data-bs-toggle="popover" data-bs-trigger="hover focus"
+                    title="Motivo da Reprovação" th:data-bs-content="${adocao.motivoReprovacao}">
+                                    <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                                </span>
+            </td>
+            <td class="text-center">
+              <div th:if="${adocao.situacao.name() == 'EM_ANALISE'}" class="btn-group" role="group">
+                <form th:action="@{/adocao/aprovar}" method="post" class="d-inline">
+                  <input type="hidden" name="adocaoId" th:value="${adocao.id}">
+                  <button type="submit" class="btn btn-success btn-sm" title="Aprovar Adoção">
+                    <i class="bi bi-check-lg"></i>
+                  </button>
+                </form>
+                <button type="button" class="btn btn-danger btn-sm" title="Reprovar Adoção"
+                        data-bs-toggle="modal" data-bs-target="#modalReprovar"
+                        th:data-adocao-id="${adocao.id}">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(listaAdocoes)}">
+            <td colspan="6" class="text-center">Nenhuma solicitação de adoção encontrada.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal fade" id="modalReprovar" tabindex="-1" aria-labelledby="modalReprovarLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form th:action="@{/adocao/reprovar}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalReprovarLabel">Reprovar Adoção</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Por favor, informe o motivo da reprovação. Esta informação será salva no histórico.</p>
+          <input type="hidden" name="adocaoId" id="adocaoIdReprovar">
+          <textarea name="motivo" class="form-control" rows="3" required placeholder="Ex: Adotante não cumpriu os pré-requisitos..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-danger">Confirmar Reprovação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script>
+  setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Inicializa todos os popovers da página
+      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+      const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
+      // Passa o ID da adoção para o input hidden do modal de reprovação
+      const modalReprovar = document.getElementById('modalReprovar');
+      if (modalReprovar) {
+          modalReprovar.addEventListener('show.bs.modal', function (event) {
+              const button = event.relatedTarget; // O botão que ativou o modal
+              const adocaoId = button.getAttribute('data-adocao-id'); // Pega o ID do atributo data-*
+              const modalInput = modalReprovar.querySelector('#adocaoIdReprovar'); // Acha o input dentro do modal
+              modalInput.value = adocaoId; // Coloca o ID no input
+          });
+      }
+  });
+</script>
+
+</body>
+</html>

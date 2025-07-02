@@ -31,20 +31,29 @@ public class UsuarioService {
 
     @Transactional
     public Usuarios salvar(UsuarioDTO usuarioDTO) {
+
+        String cpfLimpo = usuarioDTO.cpf().replaceAll("[.-]", "");
+
         if (usuarioDTO.id() == null || usuarioDTO.id() == 0) {
             usuarioValidator.validarNovoUsuario(usuarioDTO);
+
             Usuarios novoUsuario = usuarioDTO.toEntity();
+
+            novoUsuario.setCpf(cpfLimpo);
+
             novoUsuario.setSenha(usuarioDTO.senha());
             return usuarioRepository.save(novoUsuario);
+
         } else {
             Usuarios usuarioExistente = usuarioRepository.findById(usuarioDTO.id())
                     .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + usuarioDTO.id()));
 
             usuarioExistente.setNome(usuarioDTO.nome());
-            usuarioExistente.setCpf(usuarioDTO.cpf());
+
+            usuarioExistente.setCpf(cpfLimpo);
+
             usuarioExistente.setDataNascimento(usuarioDTO.dataNascimento());
             usuarioExistente.setGenero(usuarioDTO.genero());
-            //usuarioExistente.setTipo(usuarioDTO.tipo());
             usuarioExistente.setFoto(usuarioDTO.foto());
 
             if (usuarioDTO.senha() != null && !usuarioDTO.senha().isBlank()) {
@@ -65,9 +74,11 @@ public class UsuarioService {
 
     @Transactional
     public void excluirPorId(Integer id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new MensagemPadrao("Usuário com ID " + id + " não encontrado.");
-        }
+        Usuarios usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário com ID " + id + " não encontrado."));
+
+        usuarioValidator.validateForDeletion(usuario);
+
         usuarioRepository.deleteById(id);
     }
 
