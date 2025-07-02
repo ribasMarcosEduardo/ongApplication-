@@ -28,5 +28,9 @@ public interface AnimalRepository extends JpaRepository<Animais, Integer> {
             @Param("tipo") TipoAnimal tipo,
             @Param("cor") String cor
     );
+
+    List<Animais> findBySituacaoOrderByNomeAsc(char situacao);
+
+
 }
 

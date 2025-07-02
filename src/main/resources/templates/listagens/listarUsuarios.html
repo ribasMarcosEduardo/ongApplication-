@@ -7,7 +7,7 @@
 
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<main class="content-flex-grow">
+<main class="d-flex flex-column min-vh-100">
     <div class="container mt-5">
         <section class="borda-container">
             <h3 style="text-align: center; margin-bottom: 1.5rem;">Usuários Cadastrados no Sistema</h3>
@@ -27,14 +27,23 @@
                     <tbody>
                     <tr th:each="usuario : ${listaUsuarios}">
                         <td th:text="${usuario.nome}"></td>
-                        <td th:text="${usuario.cpf}"></td>
+
+                        <td th:text="${usuario.cpf != null and #strings.length(usuario.cpf) == 11 ?
+               #strings.substring(usuario.cpf, 0, 3) + '.' +
+               #strings.substring(usuario.cpf, 3, 6) + '.' +
+               #strings.substring(usuario.cpf, 6, 9) + '-' +
+               #strings.substring(usuario.cpf, 9, 11) :
+               usuario.cpf}">
+                        </td>
 
                         <td class="text-center">
-                            <a th:href="@{/usuario/editar(id=${usuario.id})}" class="btn btn-warning btn-sm" title="Editar Usuário">
+                            <a th:href="@{/usuario/editar(id=${usuario.id})}" class="btn btn-warning btn-sm"
+                               title="Editar Usuário">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
 
-                            <a th:href="@{/usuario/excluir(id=${usuario.id})}" class="btn btn-danger btn-sm" title="Excluir Usuário"
+                            <a th:href="@{/usuario/excluir(id=${usuario.id})}" class="btn btn-danger btn-sm"
+                               title="Excluir Usuário"
                                onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
                                 <i class="bi bi-trash-fill"></i>
                             </a>
@@ -52,6 +61,8 @@
         </section>
     </div>
 </main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 <script>
     setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);

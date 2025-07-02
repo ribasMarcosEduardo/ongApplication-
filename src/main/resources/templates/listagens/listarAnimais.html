@@ -21,7 +21,7 @@
 
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<main class="content-flex-grow">
+<main class="d-flex flex-column min-vh-100">
   <div class="container mt-5">
     <section class="borda-container">
       <h3 style="text-align: center; margin-bottom: 1.5rem;">Animais Cadastrados na ONG</h3>
@@ -58,7 +58,7 @@
                                 <span th:switch="${animal.situacao}">
                                     <span th:case="'D'" class="badge bg-success">Disponível</span>
                                     <span th:case="'A'" class="badge bg-primary">Adotado</span>
-                                    <span th:case="'T'" class="badge bg-warning text-dark">Em Tratamento</span>
+                                    <span th:case="'T'" class="badge bg-warning text-dark">Em Análise</span>
                                     <span th:case="*" class="badge bg-secondary">Outro</span>
                                 </span>
             </td>
@@ -82,6 +82,9 @@
     </section>
   </div>
 </main>
+
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 <script>
   setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);

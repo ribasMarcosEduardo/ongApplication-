@@ -25,14 +25,22 @@
         <li class="nav-item dropdown">
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Animais</button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" th:href="@{/animal/listaAnimal}">Controle de Animais</a></li>
-            <li><a class="dropdown-item" th:href="@{/prontuario/cadastroProntuario}">Cadastrar Prontuário</a></li>
+            <li><a class="dropdown-item" th:href="@{/animal/listaAnimal}">Controle de animais</a></li>
+            <li><a class="dropdown-item" th:href="@{/animal/cadastroAnimal}">Cadastrar animais</a></li>
+            <li><a class="dropdown-item" th:href="@{/prontuario/cadastroProntuario}">Cadastrar prontuário</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Usuários</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" th:href="@{/usuario/listaUsuario}">Lista de usuário</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Adoções</button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/adocao/cadastrar}">Cadastrar solicitação</a></li>
+            <li><a class="dropdown-item" th:href="@{/adocao/listar}">Validação de adoções</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head-default}">
-    <title>Gerenciar Prontuário</title>
-</head>
+<head th:replace="~{fragments/head :: head-default}"></head>
+<head><title>Cadastrar Prontuário</title></head>
 <body>
 
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<div class="container mt-5">
+<div class="container mt-5 d-flex flex-column min-vh-100">
     <section class="borda-container">
         <h3 style="text-align: center; margin-bottom: 1.5rem;"
             th:text="${prontuarioDTO.id == 0 || prontuarioDTO.id == null} ? 'Cadastro de Novo Prontuário' : 'Edição do Prontuário de ' + ${animalNome}">
@@ -172,6 +171,13 @@
         </div>
     </div>
 </div>
+
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script>
+    setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
+</script>
 
 <script th:inline="javascript">
     /*<![CDATA[*/

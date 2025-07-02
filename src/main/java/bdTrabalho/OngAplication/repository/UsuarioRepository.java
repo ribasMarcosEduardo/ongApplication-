@@ -12,4 +12,6 @@ public interface UsuarioRepository extends JpaRepository<Usuarios, Integer> {
     boolean existsByCpf(@NotBlank(message = "O CPF não pode estar em branco.") String cpf);
 
     List<Usuarios> findAllByOrderByNomeAsc();
+
+
 }

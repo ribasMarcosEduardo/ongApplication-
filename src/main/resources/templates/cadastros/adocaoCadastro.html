@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head-default}">
+
+</head>
+<head><title>Registrar Adoção</title></head>
+<body>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main class="d-flex flex-column min-vh-100">
+  <div class="container mt-5">
+    <section class="borda-container">
+      <h3 style="text-align: center; margin-bottom: 1.5rem;">Solicitação de Adoção</h3>
+
+      <div th:if="${sucesso}" class="alert alert-success" role="alert" th:text="${sucesso}"></div>
+      <div th:if="${erro}" class="alert alert-danger" role="alert" th:text="${erro}"></div>
+
+      <form th:action="@{/adocao/salvar}" th:object="${adocaoDTO}" method="post">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label" for="animalNome">Animal a ser Adotado:</label>
+            <input type="hidden" id="animalId" th:field="*{animalId}" required>
+            <div class="input-group">
+              <input type="text" id="animalNome" class="form-control" placeholder="Selecione um animal..." readonly>
+              <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAnimais">
+                Selecionar...
+              </button>
+            </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('animalId')}" th:errors="*{animalId}"></div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" for="usuarioNome">Adotante:</label>
+            <input type="hidden" id="usuarioId" th:field="*{usuarioId}" required>
+            <div class="input-group">
+              <input type="text" id="usuarioNome" class="form-control" placeholder="Selecione um adotante..." readonly>
+              <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalUsuarios">
+                Selecionar...
+              </button>
+            </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('usuarioId')}" th:errors="*{usuarioId}"></div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="dataAdocao" class="form-label">Data da Solicitação:</label>
+            <input type="datetime-local" id="dataAdocao" class="form-control" th:field="*{dataAdocao}" required>
+            <div class="text-danger" th:if="${#fields.hasErrors('dataAdocao')}" th:errors="*{dataAdocao}"></div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="observacoes" class="form-label">Observações:</label>
+            <textarea id="observacoes" class="form-control" rows="5" th:field="*{observacoes}"></textarea>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-success me-2">Enviar Solicitação de Adoção</button>
+            <a th:href="@{/menuPrincipal}" class="btn btn-danger">Cancelar</a>
+          </div>
+        </div>
+      </form>
+    </section>
+  </div>
+</main>
+
+<div class="modal fade" id="modalAnimais" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Selecionar Animal Disponível</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="pesquisaAnimalInput" class="form-control mb-3" placeholder="Pesquisar por nome...">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Raça</th>
+            <th>Ação</th>
+          </tr>
+          </thead>
+          <tbody id="tabelaAnimaisBody">
+          <tr th:each="animal : ${animaisDisponiveis}">
+            <td th:text="${animal.nome}"></td>
+            <td th:text="${animal.tipo.displayName}"></td>
+            <td th:text="${animal.raca}"></td>
+            <td>
+              <button type="button" class="btn btn-success btn-sm btn-selecionar-animal"
+                      th:data-id="${animal.id}"
+                      th:data-nome="${animal.nome}">
+                Selecionar
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalUsuarios" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Selecionar Adotante</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="pesquisaUsuarioInput" class="form-control mb-3" placeholder="Pesquisar por nome ou CPF...">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Ação</th>
+          </tr>
+          </thead>
+          <tbody id="tabelaUsuariosBody">
+          <tr th:each="user : ${todosUsuarios}">
+            <td th:text="${user.nome}"></td>
+            <td th:text="${user.cpf}"></td>
+            <td>
+              <button type="button" class="btn btn-success btn-sm btn-selecionar-usuario"
+                      th:data-id="${user.id}"
+                      th:data-nome="${user.nome}">
+                Selecionar
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script>
+  setTimeout(() => document.querySelectorAll('.alert').forEach(alert => alert.remove()), 3000);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/cadastro-adocao-script.js"></script>
+
+</body>
+</html>
