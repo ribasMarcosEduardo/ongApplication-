@@ -60,7 +60,7 @@ public class AdocaoController {
         model.addAttribute("animaisDisponiveis", animaisDisponiveis);
         model.addAttribute("todosUsuarios", todosUsuarios);
 
-        return "cadastros/adocaoCadastro";
+        return "Cadastros/adocaoCadastro";
     }
 
     @PostMapping("/salvar")
@@ -72,7 +72,7 @@ public class AdocaoController {
         if (result.hasErrors()) {
             model.addAttribute("animaisDisponiveis", animalService.findAllFilteredBySituacao("D"));
             model.addAttribute("todosUsuarios", usuarioService.findAll());
-            return "cadastros/adocaoCadastro";
+            return "Cadastros/adocaoCadastro";
         }
 
         try {

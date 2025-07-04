@@ -24,7 +24,7 @@ public class CampanhaController {
     public String cadastroCampanha(Model model) {
         model.addAttribute("campanhaDTO", new CampanhaDTO(0, null, null, null, null, null,
                 SituacaoCampanha.AGUARDANDO, null, new BigDecimal("0.00"), new BigDecimal("0.00")));
-        return "cadastros/campanhaCadastro";  // http://localhost:8080/campanha/cadastroCampanha
+        return "Cadastros/campanhaCadastro";  // http://localhost:8080/campanha/cadastroCampanha
     }
 
     @PostMapping("/salvarCampanha")
@@ -58,7 +58,7 @@ public class CampanhaController {
         CampanhaDTO campanhaDTO = CampanhaDTO.fromEntity(campanhaExistente);
 
         model.addAttribute("campanhaDTO", campanhaDTO);
-        return "cadastros/campanhaCadastro";
+        return "Cadastros/campanhaCadastro";
     }
 
     @GetMapping("/excluir")

@@ -35,7 +35,7 @@ public class EnderecoController {
     public String cadastroEndereco(Model model) {
         model.addAttribute("enderecoDTO", new EnderecoDTO(null, null, null, null, null, null, null, "Brasil", null, null));
         carregarDadosParaFormulario(model);
-        return "cadastros/enderecoCadastro";
+        return "Cadastros/enderecoCadastro";
     }
     @PostMapping("/salvar")
     public String salvarEndereco(@Valid @ModelAttribute("enderecoDTO") EnderecoDTO enderecoDTO,
@@ -53,7 +53,7 @@ public class EnderecoController {
 
         if (result.hasErrors()) {
             carregarDadosParaFormulario(model);
-            return "cadastros/enderecoCadastro";
+            return "Cadastros/enderecoCadastro";
         }
 
         // Sem erros, redireciona

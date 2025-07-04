@@ -30,7 +30,7 @@ public class ContatoController {
         model.addAttribute("contatoDTO", new ContatoDTO(null, null, null, null));
         List<Usuarios> usuarios = usuarioRepository.findAll();
         model.addAttribute("usuarios", usuarios);
-        return "cadastros/contatoCadastro";
+        return "Cadastros/contatoCadastro";
     }
 
     @PostMapping("/salvar")
@@ -51,7 +51,7 @@ public class ContatoController {
         if (result.hasErrors()) {
             List<Usuarios> usuarios = usuarioRepository.findAll();
             model.addAttribute("usuarios", usuarios);
-            return "cadastros/contatoCadastro";
+            return "Cadastros/contatoCadastro";
         }
 
         redirectAttributes.addFlashAttribute("sucesso", "Contato cadastrado com sucesso!");

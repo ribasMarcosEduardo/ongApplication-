@@ -86,7 +86,7 @@ public class AnimalController {
         model.addAttribute("tiposDeAnimal", TipoAnimal.values());
         model.addAttribute("portesDeAnimal", PorteAnimal.values());
 
-        return "cadastros/animalCadastro";
+        return "Cadastros/animalCadastro";
 
     }
 

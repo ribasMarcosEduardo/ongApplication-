@@ -32,7 +32,7 @@ public class UsuarioController {
 
         model.addAttribute("generos", Genero.values());
 
-        return "cadastros/usuarioCadastro";
+        return "Cadastros/usuarioCadastro";
     }
 
     @PostMapping("/salvar")
@@ -43,7 +43,7 @@ public class UsuarioController {
 
         if (result.hasErrors()) {
             model.addAttribute("generos", Genero.values());
-            return "cadastros/usuarioCadastro";
+            return "Cadastros/usuarioCadastro";
         }
 
         try {
@@ -59,26 +59,11 @@ public class UsuarioController {
         } catch (IllegalArgumentException e) {
             result.rejectValue("cpf", "error.usuarioDTO", e.getMessage());
             model.addAttribute("generos", Genero.values());
-            return "cadastros/usuarioCadastro";
+            return "Cadastros/usuarioCadastro";
         }
 
         return "redirect:/usuario/listaUsuario";
     }
-
-    /*@GetMapping("/editarUsuario")
-    public String editarUsuario(@RequestParam("id") int id, Model model, RedirectAttributes redirectAttributes) {
-        Optional<Usuarios> usuarioOptional = usuarioService.findById(id);
-        if (usuarioOptional.isEmpty()) {
-            redirectAttributes.addFlashAttribute("erro", "Usuário com ID " + id + " não encontrado.");
-            model.addAttribute("usuarioDTO", new UsuarioDTO(null, null, null, null, null, ' ', null, null));
-            model.addAttribute("generos", Genero.values());
-            return "cadastros/usuarioCadastro";
-        }
-        UsuarioDTO usuarioDTO = UsuarioDTO.fromEntity(usuarioOptional.get());
-        model.addAttribute("usuarioDTO", usuarioDTO);
-        model.addAttribute("generos", Genero.values());
-        return "cadastros/usuarioCadastro";
-    }*/
 
     @GetMapping("/editar")
     public String mostrarFormularioDeEdicao(@RequestParam("id") Integer id, Model model) {
@@ -96,7 +81,7 @@ public class UsuarioController {
         model.addAttribute("generos", Genero.values());
 
         // 5. Retorna o caminho para a página de formulário.
-        return "cadastros/usuarioCadastro";
+        return "Cadastros/usuarioCadastro";
     }
 
     @GetMapping("/listaUsuario")
